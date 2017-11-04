@@ -19,7 +19,7 @@ var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSi
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
 function onLoad() {
-	initControls();
+	/*initControls();*/
 	init();
 }
 
@@ -156,6 +156,7 @@ function onUpdate()
 	}*/
 }
 
+/*
 function initControls()
 {
 	var sliderLightX = document.getElementById("slider_L_pos_x");
@@ -185,6 +186,7 @@ function initControls()
 		light.position.z = parseFloat(sliderLightZ.value);
 	});
 }
+*/
 
 // UTILS ------------------------------------------------------------
 
