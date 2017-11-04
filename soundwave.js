@@ -1,7 +1,7 @@
 var m_circleArr = [];
 var m_pulseTimer = 1;
 var m_source = new THREE.Vector3(0,0,0);
-var m_sourceVelocity = new THREE.Vector3(0.3,0.3,0);
+var m_sourceVelocity = new THREE.Vector3(2,2,0);
 var m_elapsedTime = 0;
 
 var s_speedThroughMedium = 1;

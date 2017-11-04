@@ -8,7 +8,9 @@ var height = 600;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
-var grid, sources;
+var grid = [], sources, gridMaterials;
+
+var gridWidth = 10, gridHeight = 10;
 
 // GUI global variable -----------------------------------------------
 var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
@@ -104,18 +106,27 @@ function createScene()
 
 	// create grid
 	var sources = [];
-	var grid = createGrid(5,5);
+	createGrid(gridWidth, gridHeight);
 	var src = {
 		"value": 0,
 		"x": 3,
 		"y": 0
 	};
-	addSrc(src.x,src.y,src,grid,sources);
+	addSrc(src.x,src.y,src);
 
-	var geometry = new THREE.PlaneGeometry(SCALE*grid.width, SCALE*grid.height, grid.width, grid.height);
-	var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, wireframe: true} );
-	gridMesh = new THREE.Mesh( geometry, material );
-	scene.add(gridMesh);
+	var dotGeometry = new THREE.Geometry();
+
+	for (var x = 0; x < grid.length; ++x)
+	{
+		for (var y = 0; y < grid[x].length; ++y)
+		{
+			dotGeometry.vertices.push(new THREE.Vector3( x, y, 0));
+		}
+	}
+
+	var dotMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false } );
+	var dot = new THREE.Points( dotGeometry, dotMaterial );
+	scene.add( dot );
 }
 
 function onUpdate()
@@ -126,7 +137,7 @@ function onUpdate()
 	controls.update();
 
 	//SHIT SUCKS PLEASE IMPROVE!
-	while(scene.children.length > 0){ 
+	/*while(scene.children.length > 0){ 
 	    scene.remove(scene.children[0]); 
 	}
 	Update(0.05);
@@ -142,7 +153,7 @@ function onUpdate()
 		line.material.transparent = true;
 		line.position.copy(element['position']);
 		scene.add( line );
-	}
+	}*/
 }
 
 function initControls()
