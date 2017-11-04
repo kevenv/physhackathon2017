@@ -1,12 +1,14 @@
 "use strict";
 
 // GLOBALS ------------------------------------------------------------
-var camera, scene, renderer, controls, axis;
+var camera, scene, renderer, controls, axis, gridMesh;
 
 var width = 800;
 var height = 600;
 var windowHalfX = width / 2;
-var windowHalfY = height / 2;
+var windowHalfY = height / 2
+
+var grid, sources;
 
 // GUI global variable -----------------------------------------------
 var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
@@ -88,15 +90,32 @@ function init()
 	scene.add(lineZ);
 	axis = [lineX, lineY, lineZ];
 
-	var geometry = new THREE.SphereGeometry( 1, 32, 32 );
-	var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-	var sphere = new THREE.Mesh( geometry, material );
-	scene.add( sphere );
-
+	createScene();
 	gui_init();
 	onRender();
 
 	onWindowResize();
+}
+
+function createScene()
+{
+	var SCALE = 4.0;
+	var SCALE_SRC = 1.0;
+
+	// create grid
+	var sources = [];
+	var grid = createGrid(5,5);
+	var src = {
+		"value": 0,
+		"x": 3,
+		"y": 0
+	};
+	addSrc(src.x,src.y,src,grid,sources);
+
+	var geometry = new THREE.PlaneGeometry(SCALE*grid.width, SCALE*grid.height, grid.width, grid.height);
+	var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, wireframe: true} );
+	gridMesh = new THREE.Mesh( geometry, material );
+	scene.add(gridMesh);
 }
 
 function onUpdate()
@@ -105,6 +124,25 @@ function onUpdate()
 	renderer.clear();
 
 	controls.update();
+
+	//SHIT SUCKS PLEASE IMPROVE!
+	while(scene.children.length > 0){ 
+	    scene.remove(scene.children[0]); 
+	}
+	Update(0.05);
+	for (var i = 0; i < m_circleArr.length; ++i) {
+		var element = m_circleArr[i];
+
+		var geometry = new THREE.CircleBufferGeometry( element['radius'], 8 );
+		var wireframe = new THREE.WireframeGeometry( geometry );
+		var line = new THREE.LineSegments( wireframe );
+		line.material.color.setHex( 0xffffff );
+		line.material.depthTest = false;
+		line.material.opacity = 1;
+		line.material.transparent = true;
+		line.position.copy(element['position']);
+		scene.add( line );
+	}
 }
 
 function initControls()
