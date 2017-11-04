@@ -9,6 +9,7 @@ var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
 var grid, sources;
+var currentTime;
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
@@ -99,11 +100,11 @@ function createScene()
 	var SCALE_SRC = 1.0;
 
 	// create grid
-	var sources = [];
-	var grid = createGrid(5,5);
+	sources = [];
+	grid = createGrid(5,5);
 	var src = {
 		"value": 0,
-		"x": 3,
+		"x": 0,
 		"y": 0
 	};
 	addSrc(src.x,src.y,src,grid,sources);
@@ -120,6 +121,8 @@ function onUpdate()
 	renderer.clear();
 
 	controls.update();
+
+	tickSim(currentTime, grid, sources);
 
 	//SHIT SUCKS PLEASE IMPROVE!
 	while(scene.children.length > 0){ 
