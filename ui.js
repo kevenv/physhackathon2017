@@ -11,7 +11,7 @@ function gui_init()
 	var SourceControlB = gui.addFolder( 'Source2' );
 	var GridControls = gui.addFolder( 'GridControls' );
 	WaveControls.add(params, 'Freeze',false).onChange( function( value ) { ssaoPass.Freeze = value; } );
-	WaveControls.add(params, 'amplitude_m' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.amplitude_m = value; } );				
+	WaveControls.add(params, 'amplitude_m' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.amplitude_m = value; } );
 	WaveControls.add(params, 'frequency_hz' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.frequency_hz = value; } );
 	// unit for WaveSpeed is m/s
 	WaveControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
@@ -24,8 +24,14 @@ function gui_init()
 	SourceControlB.add(sourceB, 'x', 0,100,1).onChange( function(value){ ssaoPass.x = value; });
 	SourceControlB.add(sourceB, 'y', 0,100,1).onChange( function(value){ ssaoPass.y = value; });
 	// grid size initially is 100*100
-	GridControls.add(params, 'GridSizeX' ).min( 0 ).max( 1000).onChange( function( value ) { ssaoPass.GridSizeX = value; } );
-	GridControls.add(params, 'GridSizeY' ).min( 0 ).max( 1000).onChange( function( value ) { ssaoPass.GridSizeY = value; } );
+	GridControls.add(params, 'GridSizeX' ).min( 0 ).max( 1000).onChange( function( value ) {
+		ssaoPass.GridSizeX = value;
+
+	} );
+	GridControls.add(params, 'GridSizeY' ).min( 0 ).max( 1000).onChange( function( value ) {
+		ssaoPass.GridSizeY = value;
+
+	} );
 
 	WaveControls.open();
 

@@ -2,18 +2,16 @@
 
 // GLOBALS ------------------------------------------------------------
 var camera, scene, renderer, controls, axis, gridMesh;
-
+var spheres = [];
 var width = 800;
 var height = 600;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
 var grid = [], sources = [], gridMaterials;
-var currentTime = 0;
 var dotGeometry;
-
-var gridWidth = 200, gridHeight = 200;
-
+var currentTime = 0;
+var gridWidth = 100, gridHeight = 100;
 // GUI global variable -----------------------------------------------
 var params = { 
 	amplitude_m: 10, 
@@ -62,7 +60,7 @@ function onRender()
 {
 	setTimeout( function() {
         requestAnimationFrame( onRender );
-    }, 1000 / 90 );
+    }, 1000 / 15 );
     if(!params.Freeze){
     	onUpdate();
     }
@@ -124,38 +122,40 @@ function createScene()
 {
 	var SCALE = 4.0;
 	var SCALE_SRC = 1.0;
+	var numSrc = 2;
 
 	// create grid
-	var sources = [];
 	createGrid(gridWidth, gridHeight);
-
 	addSrc(sourceA.x,sourceA.y);
 	addSrc(sourceB.x,sourceB.y);
 	
-	dotGeometry = new THREE.BufferGeometry();
+	dotGeometry = new THREE.Geometry();
 
-	var vertices = new Float32Array(3*gridWidth*gridHeight);
-	var colors = new Float32Array(3*gridWidth*gridHeight);
-	for (var x = 0; x < gridWidth; ++x)
+	// add sphere to source point
+    console.log(sources.length);
+    var geometry = new THREE.SphereGeometry(1);
+    var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    for (var i = 0; i<sources.length;++i){
+
+    	var sphere = new THREE.Mesh( geometry, material );
+    	spheres.push(sphere);
+        scene.add( sphere );
+        sphere.position.set(sources[i].x, sources[i].y, 0);
+        sphere.visible = true;
+    }
+
+
+	for (var x = 0; x < grid.length; ++x)
 	{
-		for (var y = 0; y < gridHeight; ++y)
+		for (var y = 0; y < grid[x].length; ++y)
 		{
-			var index = (x*gridWidth) + y;
-			vertices[index] = x;
-			vertices[index+1] = y;
-			vertices[index+2] = 0;
-			colors[index] = 1;
-			colors[index+1] = 1;
-			colors[index+2] = 1;
+			dotGeometry.vertices.push(new THREE.Vector3( x, y, 0));
 		}
 	}
 
-	dotGeometry.addAttribute('position', new THREE.BufferAttribute( vertices, 3 ));
-	dotGeometry.addAttribute('color', new THREE.BufferAttribute( colors, 3 ));
-	var pointsMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
-	var dot = new THREE.Points( dotGeometry, pointsMaterial );
-
-	scene.add( dot);
+	var dotMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false } );
+	var dot = new THREE.Points( dotGeometry, dotMaterial );
+	scene.add( dot );
 }
 
 function onUpdate()
@@ -177,18 +177,14 @@ function onUpdate()
 	{
 		for (var y = 0; y < grid[x].length; ++y)
 		{
-			var index = 3*((x*gridHeight)+y);
-			dotGeometry.attributes.position.set([x,y,grid[x][y]], index);
-			var ratio = (10+grid[x][y])/20;
-			dotGeometry.attributes.color.set([ratio, 1-ratio, 0], index);
+			dotGeometry.vertices[(x*gridHeight)+y].setZ(grid[x][y]);
 		}
 	}
-	dotGeometry.attributes.position.needsUpdate = true;
-	dotGeometry.attributes.color.needsUpdate = true;
+	dotGeometry.verticesNeedUpdate = true;
 
 	//SHIT SUCKS PLEASE IMPROVE!
-	/*while(scene.children.length > 0){ 
-	    scene.remove(scene.children[0]); 
+	/*while(scene.children.length > 0){
+	    scene.remove(scene.children[0]);
 	}
 	Update(0.05);
 	for (var i = 0; i < m_circleArr.length; ++i) {
@@ -211,6 +207,7 @@ function updateSource(index,NewX,NewY)
 {
 	sources[index].x = NewX;
 	sources[index].y = NewY;
+	spheres[index].position.set(NewX, NewY, grid[NewX][NewY]);
 }
 
 
