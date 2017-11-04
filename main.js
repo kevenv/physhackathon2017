@@ -1,12 +1,14 @@
 "use strict";
 
 // GLOBALS ------------------------------------------------------------
-var camera, scene, renderer, controls, axis;
+var camera, scene, renderer, controls, axis, gridMesh;
 
 var width = 800;
 var height = 600;
 var windowHalfX = width / 2;
-var windowHalfY = height / 2;
+var windowHalfY = height / 2
+
+var grid, sources;
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
@@ -84,14 +86,32 @@ function init()
 	scene.add(lineZ);
 	axis = [lineX, lineY, lineZ];
 
-	var geometry = new THREE.SphereGeometry( 1, 32, 32 );
-	var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-	var sphere = new THREE.Mesh( geometry, material );
-	scene.add( sphere );
+	createScene();
 
 	onRender();
 
 	onWindowResize();
+}
+
+function createScene()
+{
+	var SCALE = 4.0;
+	var SCALE_SRC = 1.0;
+
+	// create grid
+	var sources = [];
+	var grid = createGrid(5,5);
+	var src = {
+		"value": 0,
+		"x": 3,
+		"y": 0
+	};
+	addSrc(src.x,src.y,src,grid,sources);
+
+	var geometry = new THREE.PlaneGeometry(SCALE*grid.width, SCALE*grid.height, grid.width, grid.height);
+	var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, wireframe: true} );
+	gridMesh = new THREE.Mesh( geometry, material );
+	scene.add(gridMesh);
 }
 
 function onUpdate()
