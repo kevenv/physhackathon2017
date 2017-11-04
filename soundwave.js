@@ -22,7 +22,7 @@ function Update (deltaTime)
 		m_circleArr[i]['radius'] += s_speedThroughMedium * deltaTime;
 		if (m_circleArr[i]['radius'] >= s_maxRadius)
 		{
-			m_circleArr.pop(i);
+			m_circleArr.splice(i, 1);
 			--i;
 		}
 	}

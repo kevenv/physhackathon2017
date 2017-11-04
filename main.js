@@ -89,7 +89,7 @@ function init()
 	var sphere = new THREE.Mesh( geometry, material );
 	scene.add( sphere );
 
-	onRender();
+	onRender();	
 
 	onWindowResize();
 }
@@ -109,9 +109,10 @@ function onUpdate()
 	for (var i = 0; i < m_circleArr.length; ++i) {
 		var element = m_circleArr[i];
 
-		var geometry = new THREE.CircleBufferGeometry( element['radius'], 32 );
+		var geometry = new THREE.CircleBufferGeometry( element['radius'], 8 );
 		var wireframe = new THREE.WireframeGeometry( geometry );
 		var line = new THREE.LineSegments( wireframe );
+		line.material.color.setHex( 0xffffff );
 		line.material.depthTest = false;
 		line.material.opacity = 1;
 		line.material.transparent = true;
