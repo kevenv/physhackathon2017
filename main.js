@@ -66,9 +66,9 @@ function init()
 
 	camera = new THREE.PerspectiveCamera( 40, windowHalfX / windowHalfY, 1, 3000 );
 	camera.up.set(0,0,1);
-	camera.position.x = 0;
-	camera.position.y = -12;
-	camera.position.z = 0;
+	camera.position.x = 250;
+	camera.position.y = 150;
+	camera.position.z = 250;
 	camera.lookAt(new THREE.Vector3(0,0,0));
 
 	scene = new THREE.Scene();
@@ -118,17 +118,17 @@ function createScene()
 	var sources = [];
 	createGrid(gridWidth, gridHeight);
 	var src1 = {
-		"x": 100,
-		"y": 100
-	};
-	addSrc(src1.x,src1.y);
-
-	var src2 = {
 		"x": 50,
 		"y": 50
 	};
+	addSrc(src1.x,src1.y);
+	/*
+	var src2 = {
+		"x": 100,
+		"y": 100
+	};
 	addSrc(src2.x,src2.y);
-
+	*/
 	dotGeometry = new THREE.Geometry();
 
 	for (var x = 0; x < grid.length; ++x)
