@@ -10,12 +10,14 @@ function createGrid(w,h)
 			grid[i].push(0);
 		}
 	}
-	sources = grid;
 }
 
-function addSrc(x,y,src)
+function addSrc(x,y)
 {
-	sources[x][y] = src;
+	sources.push({
+		'x' : x,
+		'y' : y
+	});
 }
 
 function waveEq(y0, f, t, x, c)
@@ -26,9 +28,10 @@ function waveEq(y0, f, t, x, c)
 	return y0 * cosResult;
 }
 
-function waveEq2D(x0,y0,x,y,f,t,c)
+function waveEq2D(a,sensorLocation,sourceLocation,f,t,c)
 {
-	var amp = waveEq(x0, f, t, Math.sqrt(Math.pow(x,2) + Math.pow(y,2)), c);
+	var length = sensorLocation.distanceTo(sourceLocation);
+	var amp = waveEq(a, f, t, length, c);
 	return amp;
 }
 
@@ -39,11 +42,18 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 	var dt = 0.001;
 	var x0 = amplitude;
 	var y0 = amplitude;
+	var a = 5.0;
 
 	// update amplitudes
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
-			grid[i][j] = waveEq2D(x0,y0,i,j,f,t,c);
+			grid[i][j] = 0;
+			for (var s = 0; s < sources.length; ++s)
+			{
+				var sensorLocation = new THREE.Vector2(i, j);
+				var sourceLocation = new THREE.Vector2(sources[s].x, sources[s].y);
+				grid[i][j] += waveEq2D(a,sensorLocation,sourceLocation,f,t,c);
+			}
 		}
 	}
 
