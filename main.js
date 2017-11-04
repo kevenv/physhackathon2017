@@ -12,7 +12,7 @@ var grid = [], sources, gridMaterials;
 var dotGeometry;
 var currentTime = 0;
 
-var gridWidth = 10, gridHeight = 10;
+var gridWidth = 100, gridHeight = 100;
 
 // GUI global variable -----------------------------------------------
 var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
@@ -146,6 +146,8 @@ function onUpdate()
 			dotGeometry.vertices[(x*gridHeight)+y].setZ(grid[x][y]);
 		}
 	}
+	dotGeometry.verticesNeedUpdate = true;
+
 	//SHIT SUCKS PLEASE IMPROVE!
 	/*while(scene.children.length > 0){ 
 	    scene.remove(scene.children[0]); 

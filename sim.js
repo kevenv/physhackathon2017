@@ -21,22 +21,22 @@ function addSrc(x,y,src)
 function waveEq(y0, f, t, x, c)
 {
 	var w = 2*Math.PI*f;
-	return y0 * Math.cos(w * (t - x/c));
+	var cosResult = Math.cos(w * (t - x/c));
+
+	return y0 * cosResult;
 }
 
 function waveEq2D(x0,y0,x,y,f,t,c)
 {
-	var ampX = waveEq(x0, f, t, x, c);
-	var ampY = waveEq(y0, f, t, y, c);
-	var amp = new THREE.Vector2(ampX,ampY).length();
+	var amp = waveEq(x0, f, t, Math.sqrt(Math.pow(x,2) + Math.pow(y,2)), c);
 	return amp;
 }
 
 function tickSim(t, grid, sources)
 {
-	var f = 10;
+	var f = 20;
 	var c = 300;
-	var dt = 0.2;
+	var dt = 0.001;
 	var x0 = 5.0;
 	var y0 = 5.0;
 
@@ -47,5 +47,5 @@ function tickSim(t, grid, sources)
 		}
 	}
 
-	t += dt;
+	currentTime += dt;
 }
