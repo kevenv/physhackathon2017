@@ -20,9 +20,18 @@ var params = {
 	GridSizeX: 100, 
 	GridSizeY: 100,
 	Freeze:false,
-	Sources:1,
-
+	//Sources:1,
 };
+
+var sourceA = {
+	x : 25,
+	y : 50
+}
+
+var sourceB = {
+	x : 50,
+	y : 50
+} 
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
@@ -117,18 +126,9 @@ function createScene()
 	// create grid
 	var sources = [];
 	createGrid(gridWidth, gridHeight);
-	var src1 = {
-		"x": 50,
-		"y": 50
-	};
-	addSrc(src1.x,src1.y);
-	/*
-	var src2 = {
-		"x": 100,
-		"y": 100
-	};
-	addSrc(src2.x,src2.y);
-	*/
+	addSrc(sourceA.x,sourceA.y);
+	addSrc(sourceB.x,sourceB.y);
+	
 	dotGeometry = new THREE.Geometry();
 
 	for (var x = 0; x < grid.length; ++x)
@@ -146,6 +146,12 @@ function createScene()
 
 function onUpdate()
 {
+	//update the sources
+	updateSource(0,sourceA.x,sourceA.y);
+	updateSource(1,sourceB.x,sourceB.y);
+
+
+
 	renderer.setClearColor(new THREE.Color(0,0,0));
 	renderer.clear();
 
@@ -181,6 +187,15 @@ function onUpdate()
 		scene.add( line );
 	}*/
 }
+
+//as advertised, we update the sources
+function updateSource(index,NewX,NewY)
+{
+	sources[index].x = NewX;
+	sources[index].y = NewY;
+}
+
+
 
 /*
 function initControls()
