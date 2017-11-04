@@ -9,12 +9,13 @@ var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
 var grid = [], sources, gridMaterials;
+var dotGeometry;
+var currentTime = 0;
 
-var gridWidth = 10, gridHeight = 10;
+var gridWidth = 100, gridHeight = 100;
 
 // GUI global variable -----------------------------------------------
 var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
-
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
@@ -109,12 +110,12 @@ function createScene()
 	createGrid(gridWidth, gridHeight);
 	var src = {
 		"value": 0,
-		"x": 3,
+		"x": 0,
 		"y": 0
 	};
 	addSrc(src.x,src.y,src);
 
-	var dotGeometry = new THREE.Geometry();
+	dotGeometry = new THREE.Geometry();
 
 	for (var x = 0; x < grid.length; ++x)
 	{
@@ -135,6 +136,17 @@ function onUpdate()
 	renderer.clear();
 
 	controls.update();
+
+	tickSim(currentTime, grid, sources);
+
+	for (var x = 0; x < grid.length; ++x)
+	{
+		for (var y = 0; y < grid[x].length; ++y)
+		{
+			dotGeometry.vertices[(x*gridHeight)+y].setZ(grid[x][y]);
+		}
+	}
+	dotGeometry.verticesNeedUpdate = true;
 
 	//SHIT SUCKS PLEASE IMPROVE!
 	/*while(scene.children.length > 0){ 
