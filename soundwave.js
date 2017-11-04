@@ -1,28 +1,21 @@
 var m_circleArr = [];
 var m_pulseTimer = 1;
-var m_source = [0,0];
-var m_sourceVelocity = [0.1, 0.1];
+var m_source = new THREE.Vector3(0,0,0);
+var m_sourceVelocity = new THREE.Vector3(0.3,0.3,0);
 var m_elapsedTime = 0;
 
 var s_speedThroughMedium = 1;
 var s_frequency = 1;
-var s_maxRadius = 20;
-
-//SHIT VECTOR IMPL PLEASE REPLACE
-function VectorAdd(a, b)
-{
-	return [a[0]+b[0], a[1]+b[1]];
-}
-
-
-function MoveSource(deltaTime) {
-	m_source = VectorAdd(m_source, m_sourceVelocity * deltaTime);
-}
+var s_maxRadius = 10;
 
 function Update (deltaTime)
 {
 	m_elapsedTime += deltaTime;
-	MoveSource(deltaTime);
+
+	// DO NOT REMOVE THESE THIS IS SO STUPID
+	var temp = m_source.clone();
+	var tempVel = m_sourceVelocity.clone();
+	m_source.copy(temp.add(tempVel.multiplyScalar(deltaTime)));
 
 	for (var i = 0; i < m_circleArr.length; ++i)
 	{
@@ -38,21 +31,10 @@ function Update (deltaTime)
 	if (m_pulseTimer < 0)
 	{
 		var circle = {
-			'source' : m_source,
-			'radius' : 0
+			'position' : m_source.clone(),
+			'radius' : 0.01
 		}
 		m_circleArr.push(circle);
+		m_pulseTimer = s_frequency;
 	}
 }
-
-function main () 
-{
-	var loopCount = 0;
-	while (loopCount < 1000)
-	{
-		Update(0.1);
-		loopCount ++;
-	}
-}
-
-main();

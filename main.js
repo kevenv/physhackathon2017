@@ -100,6 +100,24 @@ function onUpdate()
 	renderer.clear();
 
 	controls.update();
+
+	//SHIT SUCKS PLEASE IMPROVE!
+	while(scene.children.length > 0){ 
+	    scene.remove(scene.children[0]); 
+	}
+	Update(0.05);
+	for (var i = 0; i < m_circleArr.length; ++i) {
+		var element = m_circleArr[i];
+
+		var geometry = new THREE.CircleBufferGeometry( element['radius'], 32 );
+		var wireframe = new THREE.WireframeGeometry( geometry );
+		var line = new THREE.LineSegments( wireframe );
+		line.material.depthTest = false;
+		line.material.opacity = 1;
+		line.material.transparent = true;
+		line.position.copy(element['position']);
+		scene.add( line );
+	}
 }
 
 function initControls()
