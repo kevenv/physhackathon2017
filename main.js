@@ -35,7 +35,7 @@ var sourceB = {
 	y : 50
 } 
 
-//colors
+//colors---------------------------------
 var Config=function(input){
         this.color = input;
 }
