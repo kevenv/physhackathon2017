@@ -35,11 +35,13 @@ function waveEq2D(a,sensorLocation,sourceLocation,f,t,c)
 	return amp;
 }
 
-function tickSim(t, grid)
+function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 {
-	var f = 20;
-	var c = 300;
+	var f = frequency;
+	var c = waveSpeed;
 	var dt = 0.001;
+	var x0 = amplitude;
+	var y0 = amplitude;
 	var a = 5.0;
 
 	// update amplitudes

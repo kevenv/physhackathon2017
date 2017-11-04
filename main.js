@@ -10,18 +10,35 @@ var windowHalfY = height / 2
 
 var grid = [], sources = [], gridMaterials;
 var currentTime = 0;
-
 var dotGeometry;
 
 var gridWidth = 200, gridHeight = 200;
 
 // GUI global variable -----------------------------------------------
-var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
+var params = { 
+	amplitude_m: 10, 
+	frequency_hz: 10, 
+	WaveSpeed_MperSec: 343, 
+	GridSizeX: 100, 
+	GridSizeY: 100,
+	Freeze:false,
+	//Sources:1,
+};
+
+var sourceA = {
+	x : 25,
+	y : 50
+}
+
+var sourceB = {
+	x : 50,
+	y : 50
+} 
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
 function onLoad() {
-	initControls();
+	/*initControls();*/
 	init();
 }
 
@@ -46,7 +63,9 @@ function onRender()
 	setTimeout( function() {
         requestAnimationFrame( onRender );
     }, 1000 / 90 );
-	onUpdate();
+    if(!params.Freeze){
+    	onUpdate();
+    }
 	renderer.render(scene, camera);
 }
 
@@ -58,9 +77,9 @@ function init()
 
 	camera = new THREE.PerspectiveCamera( 40, windowHalfX / windowHalfY, 1, 3000 );
 	camera.up.set(0,0,1);
-	camera.position.x = 0;
-	camera.position.y = -12;
-	camera.position.z = 0;
+	camera.position.x = 250;
+	camera.position.y = 150;
+	camera.position.z = 250;
 	camera.lookAt(new THREE.Vector3(0,0,0));
 
 	scene = new THREE.Scene();
@@ -109,18 +128,10 @@ function createScene()
 	// create grid
 	var sources = [];
 	createGrid(gridWidth, gridHeight);
-	var src1 = {
-		"x": 0,
-		"y": 0
-	};
-	addSrc(src1.x,src1.y);
 
-	var src2 = {
-		"x": 50,
-		"y": 50
-	};
-	addSrc(src2.x,src2.y);
-
+	addSrc(sourceA.x,sourceA.y);
+	addSrc(sourceB.x,sourceB.y);
+	
 	dotGeometry = new THREE.BufferGeometry();
 
 	var vertices = new Float32Array(3*gridWidth*gridHeight);
@@ -149,12 +160,18 @@ function createScene()
 
 function onUpdate()
 {
+	//update the sources
+	updateSource(0,sourceA.x,sourceA.y);
+	updateSource(1,sourceB.x,sourceB.y);
+
+
+
 	renderer.setClearColor(new THREE.Color(0,0,0));
 	renderer.clear();
 
 	controls.update();
 
-	tickSim(currentTime, grid, sources);
+	tickSim(currentTime, grid, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m) ;
 
 	for (var x = 0; x < grid.length; ++x)
 	{
@@ -189,6 +206,16 @@ function onUpdate()
 	}*/
 }
 
+//as advertised, we update the sources
+function updateSource(index,NewX,NewY)
+{
+	sources[index].x = NewX;
+	sources[index].y = NewY;
+}
+
+
+
+/*
 function initControls()
 {
 	var sliderLightX = document.getElementById("slider_L_pos_x");
@@ -218,6 +245,7 @@ function initControls()
 		light.position.z = parseFloat(sliderLightZ.value);
 	});
 }
+*/
 
 // UTILS ------------------------------------------------------------
 
