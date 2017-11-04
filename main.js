@@ -9,10 +9,11 @@ var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
 var grid = [], sources = [], gridMaterials;
-var dotGeometry;
 var currentTime = 0;
 
-var gridWidth = 100, gridHeight = 100;
+var dotGeometry;
+
+var gridWidth = 200, gridHeight = 200;
 
 // GUI global variable -----------------------------------------------
 var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
@@ -44,7 +45,7 @@ function onRender()
 {
 	setTimeout( function() {
         requestAnimationFrame( onRender );
-    }, 1000 / 15 );
+    }, 1000 / 90 );
 	onUpdate();
 	renderer.render(scene, camera);
 }
@@ -120,19 +121,30 @@ function createScene()
 	};
 	addSrc(src2.x,src2.y);
 
-	dotGeometry = new THREE.Geometry();
+	dotGeometry = new THREE.BufferGeometry();
 
-	for (var x = 0; x < grid.length; ++x)
+	var vertices = new Float32Array(3*gridWidth*gridHeight);
+	var colors = new Float32Array(3*gridWidth*gridHeight);
+	for (var x = 0; x < gridWidth; ++x)
 	{
-		for (var y = 0; y < grid[x].length; ++y)
+		for (var y = 0; y < gridHeight; ++y)
 		{
-			dotGeometry.vertices.push(new THREE.Vector3( x, y, 0));
+			var index = (x*gridWidth) + y;
+			vertices[index] = x;
+			vertices[index+1] = y;
+			vertices[index+2] = 0;
+			colors[index] = 1;
+			colors[index+1] = 1;
+			colors[index+2] = 1;
 		}
 	}
 
-	var dotMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false } );
-	var dot = new THREE.Points( dotGeometry, dotMaterial );
-	scene.add( dot );
+	dotGeometry.addAttribute('position', new THREE.BufferAttribute( vertices, 3 ));
+	dotGeometry.addAttribute('color', new THREE.BufferAttribute( colors, 3 ));
+	var pointsMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
+	var dot = new THREE.Points( dotGeometry, pointsMaterial );
+
+	scene.add( dot);
 }
 
 function onUpdate()
@@ -148,10 +160,14 @@ function onUpdate()
 	{
 		for (var y = 0; y < grid[x].length; ++y)
 		{
-			dotGeometry.vertices[(x*gridHeight)+y].setZ(grid[x][y]);
+			var index = 3*((x*gridHeight)+y);
+			dotGeometry.attributes.position.set([x,y,grid[x][y]], index);
+			var ratio = (10+grid[x][y])/20;
+			dotGeometry.attributes.color.set([ratio, 1-ratio, 0], index);
 		}
 	}
-	dotGeometry.verticesNeedUpdate = true;
+	dotGeometry.attributes.position.needsUpdate = true;
+	dotGeometry.attributes.color.needsUpdate = true;
 
 	//SHIT SUCKS PLEASE IMPROVE!
 	/*while(scene.children.length > 0){ 
