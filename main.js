@@ -8,6 +8,10 @@ var height = 600;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2;
 
+// GUI global variable -----------------------------------------------
+var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
+
+
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
 function onLoad() {
@@ -89,6 +93,7 @@ function init()
 	var sphere = new THREE.Mesh( geometry, material );
 	scene.add( sphere );
 
+	gui_init();
 	onRender();
 
 	onWindowResize();
