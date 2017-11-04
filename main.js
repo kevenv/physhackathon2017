@@ -35,6 +35,43 @@ var sourceB = {
 	y : 50
 } 
 
+//colors
+var Config=function(input){
+        this.color = input;
+}
+
+var colorsTop = new Config("#FF0000");
+var colorsBot = new Config("#0000FF");
+
+
+var rgbTop = {
+	r: 255,
+	g: 0,
+	b: 0
+}
+
+var rgbBot = {
+	r: 0,
+	g: 0,
+	b: 255
+}
+
+function ConvertRgb(r,g,b,rgb) {
+	rgb.r = r;
+	rgb.g = g;
+	rgb.b = b;
+}
+
+//update color 
+function updateColor(hex,rgb){
+	var colorValue = parseInt ( hex.replace("#","0x"), 16 );
+	var Cool = new THREE.Color(colorValue);
+	ConvertRgb(Cool.r,Cool.g,Cool.b,rgb);
+}
+
+
+//----------------------------------
+
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
 function onLoad() {
@@ -163,7 +200,8 @@ function onUpdate()
 	//update the sources
 	updateSource(0,sourceA.x,sourceA.y);
 	updateSource(1,sourceB.x,sourceB.y);
-
+	updateColor(colorsTop.color,rgbTop);
+	updateColor(colorsBot.color,rgbBot);
 
 
 	renderer.setClearColor(new THREE.Color(0,0,0));
@@ -173,20 +211,26 @@ function onUpdate()
 
 	tickSim(currentTime, grid, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m) ;
 
-	for (var x = 0; x < grid.length; ++x)
-	{
-		for (var y = 0; y < grid[x].length; ++y)
-		{
-			var index = 3*((x*gridHeight)+y);
-			dotGeometry.attributes.position.set([x,y,grid[x][y]], index);
-			var ratio = (10+grid[x][y])/20;
-			dotGeometry.attributes.color.set([ratio, 1-ratio, 0], index);
-		}
-	}
-	dotGeometry.attributes.position.needsUpdate = true;
-	dotGeometry.attributes.color.needsUpdate = true;
+	 for (var x = 0; x < grid.length; ++x)
+    {
+        for (var y = 0; y < grid[x].length; ++y)
+        {
+        	var ratio = (10+grid[x][y])/20;
+            //var Red = rgbTop.r*(1.0)/255;
+            //var Green = rgbTop.g*(1.0)/255;
+            //var Blue = rgbTop.b*(1.0)/255;
+            var Red =  (rgbBot.r + ((rgbTop.r - rgbBot.r)*ratio));
+            var Green = (rgbBot.g + ((rgbTop.g - rgbBot.g)*ratio));
+            var Blue = (rgbBot.b + ((rgbTop.b - rgbBot.b)*ratio));
+            var index = 3*((x*gridHeight)+y);
+            dotGeometry.attributes.position.set([x,y,grid[x][y]], index);
+            dotGeometry.attributes.color.set([Red,Green,Blue], index);
+        }
+    }
+    dotGeometry.attributes.position.needsUpdate = true;
+    dotGeometry.attributes.color.needsUpdate = true;
 
-	//SHIT SUCKS PLEASE IMPROVE!
+    //shit something something 
 	/*while(scene.children.length > 0){ 
 	    scene.remove(scene.children[0]); 
 	}

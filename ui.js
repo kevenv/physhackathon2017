@@ -10,6 +10,7 @@ function gui_init()
 	var SourceControlA = gui.addFolder( 'Source1' );
 	var SourceControlB = gui.addFolder( 'Source2' );
 	var GridControls = gui.addFolder( 'GridControls' );
+	var ColorControls = gui.addFolder( 'Color');
 	WaveControls.add(params, 'Freeze',false).onChange( function( value ) { ssaoPass.Freeze = value; } );
 	WaveControls.add(params, 'amplitude_m' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.amplitude_m = value; } );				
 	WaveControls.add(params, 'frequency_hz' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.frequency_hz = value; } );
@@ -23,6 +24,25 @@ function gui_init()
 	//cange position of sourceB
 	SourceControlB.add(sourceB, 'x', 0,100,1).onChange( function(value){ ssaoPass.x = value; });
 	SourceControlB.add(sourceB, 'y', 0,100,1).onChange( function(value){ ssaoPass.y = value; });
+
+	//handling color input 
+	var Top = ColorControls.addColor(colorsTop, 'color');
+	var Bot = ColorControls.addColor(colorsBot, 'color');
+	
+	Top.onChange( function(value)
+	{ 
+			value=value.replace( '#','0x' );
+			colorsTop.color =  value;
+	});
+	Bot.onChange( function(value)
+	{ 
+			value=value.replace( '#','0x' );
+			colorsBot.color =  value;
+	});
+
+
+
+
 	// grid size initially is 100*100
 	GridControls.add(params, 'GridSizeX' ).min( 0 ).max( 1000).onChange( function( value ) { ssaoPass.GridSizeX = value; } );
 	GridControls.add(params, 'GridSizeY' ).min( 0 ).max( 1000).onChange( function( value ) { ssaoPass.GridSizeY = value; } );
