@@ -1,7 +1,7 @@
 "use strict";
 
 // GLOBALS ------------------------------------------------------------
-var camera, scene, renderer, controls, sphere, light, bounds, axis;
+var camera, scene, renderer, controls, axis;
 
 var width = 800;
 var height = 600;
@@ -16,10 +16,7 @@ function onLoad() {
 }
 
 document.addEventListener("keypress", function(e) {
-	if(e.key == 'b') {
-		bounds.visible = !bounds.visible;
-	}
-	else if(e.key == 'a') {
+	if(e.key == 'a') {
 		axis[0].visible = !axis[0].visible;
 		axis[1].visible = !axis[1].visible;
 		axis[2].visible = !axis[2].visible;
@@ -37,26 +34,23 @@ function onWindowResize( event ) {
 function onRender()
 {
 	setTimeout( function() {
-
         requestAnimationFrame( onRender );
-
     }, 1000 / 15 );
 	onUpdate();
-	renderer.render(scene, camera)
+	renderer.render(scene, camera);
 }
 
 // --------------------------------------------------------------------
 function init()
 {
-	var fileLoader = new THREE.FileLoader();
-
+	// camera
 	var container = document.getElementById( 'container' );
 
 	camera = new THREE.PerspectiveCamera( 40, windowHalfX / windowHalfY, 1, 3000 );
 	camera.up.set(0,0,1);
-	camera.position.x = 4.92;
-	camera.position.y = -14;
-	camera.position.z = 15.5;
+	camera.position.x = 0;
+	camera.position.y = -12;
+	camera.position.z = 0;
 	camera.lookAt(new THREE.Vector3(0,0,0));
 
 	scene = new THREE.Scene();
@@ -90,29 +84,14 @@ function init()
 	scene.add(lineZ);
 	axis = [lineX, lineY, lineZ];
 
-	onWindowResize();
-}
-
-function addMesh()
-{
-	// create light
-	var lightG = new THREE.SphereGeometry(0.1,16,16);
-	var lightMat = new THREE.MeshBasicMaterial({color: new THREE.Color(1,1,1)});
-	light = new THREE.Mesh(lightG, lightMat);
-	light.position.y = 1.1;
-	light.position.z = 2;
-	scene.add(light);
-	
-	// create bounding sphere
-	var boundsG = new THREE.SphereGeometry(5.0,16,16);
-	var boundsM = new THREE.MeshBasicMaterial( {
-		color: new THREE.Color(1,1,1,1),
-		wireframe: true
-	} );
-	bounds = new THREE.Mesh(boundsG, boundsM);
-	scene.add(bounds);
+	var geometry = new THREE.SphereGeometry( 1, 32, 32 );
+	var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+	var sphere = new THREE.Mesh( geometry, material );
+	scene.add( sphere );
 
 	onRender();
+
+	onWindowResize();
 }
 
 function onUpdate()
@@ -121,9 +100,6 @@ function onUpdate()
 	renderer.clear();
 
 	controls.update();
-
-	//sphere.rotation.x += 0.005;
-	//sphere.rotation.y += 0.005;
 }
 
 function initControls()
