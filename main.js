@@ -19,7 +19,10 @@ var params = {
 	WaveSpeed_MperSec: 343, 
 	GridSizeX: 100, 
 	GridSizeY: 100,
-	Sources:1};
+	Freeze:false,
+	Sources:1,
+
+};
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
@@ -49,7 +52,9 @@ function onRender()
 	setTimeout( function() {
         requestAnimationFrame( onRender );
     }, 1000 / 15 );
-	onUpdate();
+    if(!params.Freeze){
+    	onUpdate();
+    }
 	renderer.render(scene, camera);
 }
 
@@ -113,8 +118,8 @@ function createScene()
 	var sources = [];
 	createGrid(gridWidth, gridHeight);
 	var src1 = {
-		"x": 0,
-		"y": 0
+		"x": 100,
+		"y": 100
 	};
 	addSrc(src1.x,src1.y);
 
