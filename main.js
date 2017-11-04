@@ -9,7 +9,8 @@ var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
 var grid = [], sources, gridMaterials;
-var currentTime;
+var dotGeometry;
+var currentTime = 0;
 
 var gridWidth = 10, gridHeight = 10;
 
@@ -114,7 +115,7 @@ function createScene()
 	};
 	addSrc(src.x,src.y,src);
 
-	var dotGeometry = new THREE.Geometry();
+	dotGeometry = new THREE.Geometry();
 
 	for (var x = 0; x < grid.length; ++x)
 	{
@@ -138,6 +139,13 @@ function onUpdate()
 
 	tickSim(currentTime, grid, sources);
 
+	for (var x = 0; x < grid.length; ++x)
+	{
+		for (var y = 0; y < grid[x].length; ++y)
+		{
+			dotGeometry.vertices[(x*gridHeight)+y].setZ(grid[x][y]);
+		}
+	}
 	//SHIT SUCKS PLEASE IMPROVE!
 	/*while(scene.children.length > 0){ 
 	    scene.remove(scene.children[0]); 

@@ -1,5 +1,6 @@
 "use strict";
 
+
 function createGrid(w,h)
 {
 	//grid.data = new Array(w);
@@ -35,16 +36,14 @@ function tickSim(t, grid, sources)
 {
 	var f = 10;
 	var c = 300;
-	var dt = 0.01;
-	var x0 = 1.0;
-	var y0 = 1.0;
+	var dt = 0.2;
+	var x0 = 5.0;
+	var y0 = 5.0;
 
 	// update amplitudes
-	for(var i = 0; i < grid.width; i++) {
-		for(var j = 0; j < grid.height; j++) {
-			var x = i * grid.width;
-			var y = j * grid.height;
-			grid.data[i][j].amplitude = waveEq2D(x0,y0,x,y,f,t,c);
+	for(var i = 0; i < gridWidth; i++) {
+		for(var j = 0; j < gridHeight; j++) {
+			grid[i][j] = waveEq2D(x0,y0,i,j,f,t,c);
 		}
 	}
 
