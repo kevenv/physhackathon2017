@@ -6,19 +6,20 @@ function gui_init()
 	init_params();
 	// Init gui
 	var gui = new dat.GUI({ width: 500 });
-	var folderControls = gui.addFolder( 'controls' );
+	var WaveControls = gui.addFolder( 'WaveControls' );
+	var GridControls = gui.addFolder( 'GridControls' );
 	//gui.add(params, 'onlyAO', false ).onChange( function( value ) { ssaoPass.onlyAO = value; } );
-	folderControls.add(params, 'amplitude_m' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.amplitude_m = value; } );				
-	folderControls.add(params, 'frequency_hz' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.frequency_hz = value; } );
+	WaveControls.add(params, 'amplitude_m' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.amplitude_m = value; } );				
+	WaveControls.add(params, 'frequency_hz' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.frequency_hz = value; } );
 	// unit for WaveSpeed is m/s
-	folderControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
-	// grid size initially is 100*100
-	folderControls.add(params, 'GridSizeX' ).min( 0 ).max( 100000 ).onChange( function( value ) { ssaoPass.GridSizeX = value; } );
-	folderControls.add(params, 'GridSizeY' ).min( 0 ).max( 100000 ).onChange( function( value ) { ssaoPass.GridSizeY = value; } );
+	WaveControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
 	// how to add more sources is to be determined
-	folderControls.add(params, 'Sources' ).min( 0 ).max( 10 ).onChange( function( value ) { ssaoPass.Sources = value; } );
+	WaveControls.add(params, 'Sources',[ 1,2,3,4,5,6,7,8,9,10]).onChange( function( value ) { ssaoPass.Sources = value; });
+	// grid size initially is 100*100
+	GridControls.add(params, 'GridSizeX' ).min( 0 ).max( 1000).onChange( function( value ) { ssaoPass.GridSizeX = value; } );
+	GridControls.add(params, 'GridSizeY' ).min( 0 ).max( 1000).onChange( function( value ) { ssaoPass.GridSizeY = value; } );
 
-	folderControls.open();
+	WaveControls.open();
 
 }
 
