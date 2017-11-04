@@ -1,7 +1,7 @@
-var m_circleArr [];
+var m_circleArr = [];
 var m_pulseTimer = 1;
-var m_source = {0,0};
-var m_sourceVelocity = {0.1, 0.1};
+var m_source = [0,0];
+var m_sourceVelocity = [0.1, 0.1];
 var m_elapsedTime = 0;
 
 var s_speedThroughMedium = 1;
@@ -11,7 +11,7 @@ var s_maxRadius = 20;
 //SHIT VECTOR IMPL PLEASE REPLACE
 function VectorAdd(a, b)
 {
-	return {a[0]+b[0], a[1]+b[1]};
+	return [a[0]+b[0], a[1]+b[1]];
 }
 
 
@@ -24,27 +24,25 @@ function Update (deltaTime)
 	m_elapsedTime += deltaTime;
 	MoveSource(deltaTime);
 
-	for (var i = 0; i < circle.length(); ++i)
+	for (var i = 0; i < m_circleArr.length; ++i)
 	{
-		circle[i]['radius'] += s_speedThroughMedium * deltaTime;
-		if (circle[i]['radius'] >= s_maxRadius)
+		m_circleArr[i]['radius'] += s_speedThroughMedium * deltaTime;
+		if (m_circleArr[i]['radius'] >= s_maxRadius)
 		{
-			circle.pop(i);
+			m_circleArr.pop(i);
 			--i;
 		}
 	}
 
-	pulseTimer -= deltaTime;
-	if (pulseTimer < 0)
+	m_pulseTimer -= deltaTime;
+	if (m_pulseTimer < 0)
 	{
 		var circle = {
 			'source' : m_source,
 			'radius' : 0
 		}
+		m_circleArr.push(circle);
 	}
-	circleArr.push(circle);
-
-	console.log(m_timeElapsed + ":" + circle);
 }
 
 function main () 
