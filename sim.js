@@ -2,30 +2,19 @@
 
 function createGrid(w,h)
 {
-	var grid = {}
-
-	grid["width"] = w;
-	grid["height"] = h;
-	grid.data = new Array(grid.width);
-	for(var i = 0; i < grid.width; i++) {
-		grid.data[i] = new Array(grid.height);
-		for(var j = 0; j < grid.height; j++) {
-			grid.data[i][j] = {
-				"amplitude": 0.0,
-				"srcId": -1
-			};
+	//grid.data = new Array(w);
+	for(var i = 0; i < w; i++) {
+		grid.push([]);
+		for(var j = 0; j < h; j++) {
+			grid[i].push(0);
 		}
 	}
-
-	return grid;
+	sources = grid;
 }
 
-function addSrc(x,y,src,grid,sources)
+function addSrc(x,y,src)
 {
-	var id = sources.length;
-	src.id = id;
-	grid.data[x][y].srcId = id;
-	sources.push(src);
+	sources[x][y] = src;
 }
 
 function waveEq(y0, f, t, x, c)
