@@ -8,7 +8,7 @@ var height = 600;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
-var grid = [], sources, gridMaterials;
+var grid = [], sources = [], gridMaterials;
 var dotGeometry;
 var currentTime = 0;
 
@@ -108,12 +108,17 @@ function createScene()
 	// create grid
 	var sources = [];
 	createGrid(gridWidth, gridHeight);
-	var src = {
-		"value": 0,
+	var src1 = {
 		"x": 0,
 		"y": 0
 	};
-	addSrc(src.x,src.y,src);
+	addSrc(src1.x,src1.y);
+
+	var src2 = {
+		"x": 50,
+		"y": 50
+	};
+	addSrc(src2.x,src2.y);
 
 	dotGeometry = new THREE.Geometry();
 
