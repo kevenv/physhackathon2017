@@ -11,11 +11,15 @@ var windowHalfY = height / 2
 var grid = [], sources, gridMaterials;
 var dotGeometry;
 var currentTime = 0;
-
 var gridWidth = 100, gridHeight = 100;
-
 // GUI global variable -----------------------------------------------
-var params = { amplitude_m: 10, frequency_hz: 10, WaveSpeed_MperSec: 343, GridSizeX: 100, GridSizeY: 100, Sources:1};
+var params = { 
+	amplitude_m: 10, 
+	frequency_hz: 10, 
+	WaveSpeed_MperSec: 343, 
+	GridSizeX: 100, 
+	GridSizeY: 100,
+	Sources:1};
 
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
@@ -137,7 +141,7 @@ function onUpdate()
 
 	controls.update();
 
-	tickSim(currentTime, grid, sources);
+	tickSim(currentTime, grid, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m) ;
 
 	for (var x = 0; x < grid.length; ++x)
 	{

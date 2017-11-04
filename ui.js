@@ -13,10 +13,11 @@ function gui_init()
 	// unit for WaveSpeed is m/s
 	folderControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
 	// grid size initially is 100*100
-	folderControls.add(params, 'GridSizeX' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.GridSizeX = value; } );
-	folderControls.add(params, 'GridSizeY' ).min( 0 ).max( 1000 ).onChange( function( value ) { ssaoPass.GridSizeY = value; } );
+	folderControls.add(params, 'GridSizeX' ).min( 0 ).max( 100000 ).onChange( function( value ) { ssaoPass.GridSizeX = value; } );
+	folderControls.add(params, 'GridSizeY' ).min( 0 ).max( 100000 ).onChange( function( value ) { ssaoPass.GridSizeY = value; } );
 	// how to add more sources is to be determined
 	folderControls.add(params, 'Sources' ).min( 0 ).max( 10 ).onChange( function( value ) { ssaoPass.Sources = value; } );
+
 	folderControls.open();
 
 }
