@@ -49,8 +49,8 @@ var Config=function(input){
         this.color = input;
 }
 
-var colorsTop = new Config("#FF0000");
-var colorsBot = new Config("#0000FF");
+var colorsTop = new Config("#b36b44");
+var colorsBot = new Config("#437ed2");
 
 
 var rgbTop = {
@@ -241,7 +241,7 @@ function onUpdate()
     {
         for (var y = 0; y < grid[x].length; ++y)
         {
-        	var ratio = (10+grid[x][y])/20;
+        	var ratio = (10+grid[x][y]*1.0)/20;
             //var Red = rgbTop.r*(1.0)/255;
             //var Green = rgbTop.g*(1.0)/255;
             //var Blue = rgbTop.b*(1.0)/255;

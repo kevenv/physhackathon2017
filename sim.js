@@ -57,7 +57,6 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 	var a = amplitude;
 	
 	// new physics engine!
-	/*
 	var dt = 0.008;
 	var damping = 1.2;
 
@@ -83,9 +82,8 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 			}
 		}	
 	//}
-	*/
 
-	// update amplitudes
+	/* update amplitudes
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
 			grid[i][j] = 0;
@@ -97,6 +95,7 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 			}
 		}
 	}
+	*/
 
 	currentTime += dt;
 }
