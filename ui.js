@@ -80,4 +80,6 @@ function gui_addSource(sources)
 	sourceControl.add(sources[i], 'x', 0,200,1).onChange( function(value){ ssaoPass.x = value; });
 	sourceControl.add(sources[i], 'y', 0,200,1).onChange( function(value){ ssaoPass.y = value; });
 	sourceControl.add(sources[i], 'phase').min(-2).max(2).onChange( function(value){ ssaoPass.phase = value; });
+	sourceControl.add(sources[i], 'vx').min(-40).max(40).onChange( function(value){ ssaoPass.vx = value; });
+	sourceControl.add(sources[i], 'vy').min(-40).max(40).onChange( function(value){ ssaoPass.vy = value; });
 }
