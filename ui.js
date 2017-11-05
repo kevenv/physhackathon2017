@@ -1,3 +1,5 @@
+"use strict";
+
 // GUI global variable -----------------------------------------------
 var ssaoPass = {};
 var params = { 

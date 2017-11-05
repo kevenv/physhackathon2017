@@ -210,7 +210,7 @@ function onUpdate()
 
 	controls.update();
 
-	tickSim(currentTime, grid, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m) ;
+	tickSim(currentTime, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m);
 
 	for (var x = 0; x < grid.length; ++x)
     {
@@ -233,6 +233,24 @@ function onUpdate()
     }
     dotGeometry.attributes.position.needsUpdate = true;
     dotGeometry.attributes.color.needsUpdate = true;
+}
+
+function addSrc(x,y,phase)
+{
+	sources.push({
+		'x' : x,
+		'y' : y,
+		'phase' : phase
+	});
+	var geometry = new THREE.SphereGeometry(5,32,32);
+    var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+	var sphere = new THREE.Mesh( geometry, material );
+    spheres.push(sphere);
+    scene.add( sphere );
+    sphere.position.set(sources[sources.length-1].x, sources[sources.length-1].y, 0);
+    sphere.visible = true;
+
+    gui_addSource(sources);
 }
 
 //as advertised, we update the sources
