@@ -194,6 +194,26 @@ function createScene()
 
 	scene.add(dot);
 }
+document.addEventListener( 'mousedown', onDocumentMouseDown );
+
+function onDocumentMouseDown( event ) {
+	console.log("1");
+	var rect = document.getElementById( "container" ).getBoundingClientRect();
+    var mouse2D = new THREE.Vector2(
+    	( event.clientX-rect.left / rect.width ) * 2 - 1,
+        -( event.clientY-rect.top / rect.height ) * 2 + 1
+        );
+
+    var raycaster = new THREE.Raycaster()
+	raycaster.setFromCamera(mouse2D,camera);
+
+    var intersects = raycaster.intersectObjects( spheres );
+
+    if ( intersects.length > 0 ) {
+    	console.log('found');
+        intersects[ 0 ].object.material.color.setHex( 0xffff00 );
+    }
+}
 
 function onUpdate()
 {
