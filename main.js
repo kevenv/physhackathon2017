@@ -12,7 +12,7 @@ var grid = [], sources = [], gridMaterials;
 var currentTime = 0;
 var dotGeometry;
 
-var gridWidth = 200, gridHeight = 200;
+var gridWidth = 40, gridHeight = 40, gridDepth = 40;
 var spheres = [];
 // GUI global variable -----------------------------------------------
 var params = { 
@@ -26,13 +26,15 @@ var params = {
 };
 
 var sourceA = {
-	x : 100,
-	y : 100
+	x : 5,
+	y : 10,
+	z : 5
 }
 
 var sourceB = {
-	x : 100,
-	y : 50
+	x : 10,
+	y : 5,
+	z : 30
 } 
 
 //colors---------------------------------
@@ -163,45 +165,48 @@ function createScene()
 	var SCALE_SRC = 1.0;
 
 	// create grid
-	createGrid(gridWidth, gridHeight);
+	createGrid(gridWidth, gridHeight, gridDepth);
 
-	addSrc(sourceA.x,sourceA.y);
-	addSrc(sourceB.x,sourceB.y);
+	addSrc(sourceA.x,sourceA.y, sourceA.z);
+	addSrc(sourceB.x,sourceB.y, sourceB.z);
 	
 	dotGeometry = new THREE.BufferGeometry();
 
-	var vertices = new Float32Array(3*gridWidth*gridHeight);
-	var colors = new Float32Array(3*gridWidth*gridHeight);
-	for (var x = 0; x < gridWidth; ++x)
+	var vertices = new Float32Array(3*gridWidth*gridHeight*gridDepth);
+	var colors = new Float32Array(3*gridWidth*gridHeight*gridDepth);
+	for (var z = 0; z < gridDepth; ++z)
 	{
 		for (var y = 0; y < gridHeight; ++y)
 		{
-			var index = (x*gridWidth) + y;
-			vertices[index] = x;
-			vertices[index+1] = y;
-			vertices[index+2] = 0;
-			colors[index] = 1;
-			colors[index+1] = 1;
-			colors[index+2] = 1;
+			for (var x = 0; x < gridWidth; ++x)
+			{
+				var index = 3*((z*gridHeight*gridWidth) + (y*gridHeight) + x);
+				vertices[index] = x;
+				vertices[index+1] = y;
+				vertices[index+2] = z;
+				colors[index] = 1;
+				colors[index+1] = 1;
+				colors[index+2] = 1;
+			}
 		}
 	}
 
 	dotGeometry.addAttribute('position', new THREE.BufferAttribute( vertices, 3 ));
 	dotGeometry.addAttribute('color', new THREE.BufferAttribute( colors, 3 ));
-	var pointsMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
+	var pointsMaterial = new THREE.PointsMaterial( { size: 2, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
 	var dot = new THREE.Points( dotGeometry, pointsMaterial );
 
 	scene.add( dot);
 
 	// add sphere to source point
-    var geometry = new THREE.SphereGeometry(5);
+    var geometry = new THREE.SphereGeometry(1);
     var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
     for (var i = 0; i<sources.length;++i){
 
     	var sphere = new THREE.Mesh( geometry, material );
     	spheres.push(sphere);
         scene.add( sphere );
-        sphere.position.set(sources[i].x, sources[i].y, 0);
+        sphere.position.set(sources[i].x, sources[i].y, sources[i].z);
         sphere.visible = true;
     }
 }
@@ -209,8 +214,8 @@ function createScene()
 function onUpdate()
 {
 	//update the sources
-	updateSource(0,sourceA.x,sourceA.y);
-	updateSource(1,sourceB.x,sourceB.y);
+	updateSource(0,sourceA.x,sourceA.y, sourceA.z);
+	updateSource(1,sourceB.x,sourceB.y, sourceB.z);
 	updateColor(colorsTop.color,rgbTop);
 	updateColor(colorsBot.color,rgbBot);
 
@@ -221,29 +226,31 @@ function onUpdate()
 
 	tickSim(currentTime, grid, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m) ;
 
-	 for (var x = 0; x < grid.length; ++x)
-    {
-        for (var y = 0; y < grid[x].length; ++y)
-        {
-        	var ratio = (10+grid[x][y])/20;
-            var Red =  (rgbBot.r + ((rgbTop.r - rgbBot.r)*ratio));
-            var Green = (rgbBot.g + ((rgbTop.g - rgbBot.g)*ratio));
-            var Blue = (rgbBot.b + ((rgbTop.b - rgbBot.b)*ratio));
-            var index = 3*((x*gridHeight)+y);
-            dotGeometry.attributes.position.set([x,y,grid[x][y]], index);
-            dotGeometry.attributes.color.set([Red,Green,Blue], index);
+	for (var z = 0; z < gridDepth; ++z)
+	{
+        for (var y = 0; y < gridHeight; ++y)
+    	{
+			for (var x = 0; x < gridWidth; ++x)
+		    {
+	        	var ratio = (10+grid[x][y][z])/20;
+	            var Red =  (rgbBot.r + ((rgbTop.r - rgbBot.r)*ratio));
+	            var Green = (rgbBot.g + ((rgbTop.g - rgbBot.g)*ratio));
+	            var Blue = (rgbBot.b + ((rgbTop.b - rgbBot.b)*ratio));
+				var index = 3*((z*gridHeight*gridWidth) + (y*gridHeight) + x);
+	            dotGeometry.attributes.color.set([Red,Green,Blue], index);
+	        }
         }
     }
-    dotGeometry.attributes.position.needsUpdate = true;
     dotGeometry.attributes.color.needsUpdate = true;
 }
 
 //as advertised, we update the sources
-function updateSource(index,NewX,NewY)
+function updateSource(index,NewX,NewY,NewZ)
 {
 	sources[index].x = NewX;
 	sources[index].y = NewY;
-	spheres[index].position.set(NewX, NewY, grid[NewX][NewY]);
+	sources[index].z = NewZ;
+	spheres[index].position.set(NewX, NewY, NewZ);
 }
 
 // UTILS ------------------------------------------------------------
