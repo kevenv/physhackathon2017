@@ -38,14 +38,20 @@ function waveEq(y0, f, t, x, c)
 {
 	var w = 2*Math.PI*f;
 	var cosResult = Math.cos(w * (t - x/c));
-
 	return y0 * cosResult;
 }
 
-function waveEq2D(a,sensorLocation,sourceLocation,f,t,c)
+function waveEq2DNoDist(a,f,t,c)
+{
+	var temp1 = new THREE.Vector2(0,0);
+	var temp2 = new THREE.Vector2(0,0);
+	return waveEq2D(a,temp1,temp2,f,t,c);
+}
+
+function waveEq2D(amplitude,sensorLocation,sourceLocation,f,t,c)
 {
 	var length = sensorLocation.distanceTo(sourceLocation);
-	var amp = waveEq(a, f, t, length, c);
+	var amp = waveEq(amplitude, f, t, length, c);
 	return amp;
 }
 
@@ -53,15 +59,15 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 {
 	var f = frequency;
 	var c = waveSpeed;
-	var dt = clock.getDelta();
 	var a = amplitude;
 	
 	// new physics engine!
 	var dt = 0.008;
 	var damping = 1.2;
-	//updateField(dt,damping,t,grid);
+	updateField(dt,damping,t,frequency,waveSpeed,amplitude,grid);
 
 	// update amplitudes
+	/*var dt = clock.getDelta();
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
 			grid[i][j] = 0;
@@ -72,12 +78,12 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 				grid[i][j] += waveEq2D(a,sensorLocation,sourceLocation,f,t,c);
 			}
 		}
-	}
+	}*/
 
 	currentTime += dt;
 }
 
-function updateField(dt,damping,t,grid)
+function updateField(dt,damping,t,frequency,wavespeed,amplitude,grid)
 {
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
@@ -92,15 +98,11 @@ function updateField(dt,damping,t,grid)
 		}
 	}
 
-	// src
-	//if(t < 1) {
-		var k = 1;
-		for(var i = gridWidth/2.0-k; i < k+gridWidth/2.0-k; i++) {
-			for(var j = gridHeight/2.0-k; j < k+gridHeight/2.0-k; j++){
-				grid[i][j] = 100*Math.sin(8*t*Math.PI);
-			}
-		}	
-	//}
+	var k = 1;
+	for(var s = 0; s < sources.length; ++s) {
+		var src = sources[s];
+		grid[src.x][src.y] = waveEq2DNoDist(amplitude, frequency, t, wavespeed);
+	}
 }
 
 function getGrid(grid, i, j)

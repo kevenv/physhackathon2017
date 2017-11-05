@@ -17,7 +17,7 @@ var spheres = [];
 // GUI global variable -----------------------------------------------
 var params = { 
 	amplitude_m: 10, 
-	frequency_hz: 1, 
+	frequency_hz: 0.1, 
 	WaveSpeed_MperSec: 70, 
 	GridSizeX: 100, 
 	GridSizeY: 100,
@@ -200,7 +200,7 @@ function createScene()
 
 	dotGeometry.addAttribute('position', new THREE.BufferAttribute( vertices, 3 ));
 	dotGeometry.addAttribute('color', new THREE.BufferAttribute( colors, 3 ));
-	var pointsMaterial = new THREE.PointsMaterial( { size: 1, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
+	var pointsMaterial = new THREE.PointsMaterial( { size: 2, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
 	var dot = new THREE.Points( dotGeometry, pointsMaterial );
 
 	scene.add( dot);
