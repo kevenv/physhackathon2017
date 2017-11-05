@@ -6,7 +6,7 @@ All required javascript libraries are included in the [libs](https://github.com/
 ## Parameters
 For our wave simulator, there are multiple parameters which users could modify in read-time simulation.
 </br>
-<img src="https://github.com/kevenv/physhackathon2017/blob/master/controlPanel.jpg" width="100px">
+<img src="https://github.com/kevenv/physhackathon2017/blob/master/controlPanel.jpg" width="300px">
 1. alptitude: the apltitude of source wave.
 2. frequency: 
 3. 
