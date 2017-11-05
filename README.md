@@ -1,5 +1,5 @@
 # physhackathon2017
-McGill Physics Hackathon 2017
+SimWave is a web application built for simulating the propogation of physical waves from multiple sources.
 
 ## Dependencies
 All required javascript libraries are included in the [libs](https://github.com/kevenv/physhackathon2017/tree/master/libs) folder.
