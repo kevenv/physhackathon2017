@@ -57,33 +57,9 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 	var a = amplitude;
 	
 	// new physics engine!
-	/*
 	var dt = 0.008;
 	var damping = 1.2;
-
-	for(var i = 0; i < gridWidth; i++) {
-		for(var j = 0; j < gridHeight; j++) {
-			var deltaX = 0.1;
-			var deltaY = 0.1;
-			var gradX = (getGrid(grid,i+1,j) - 2.0*getGrid(grid,i,j) + getGrid(grid,i-1,j)) / (deltaX*deltaX);
-			var gradY = (getGrid(grid,i,j+1) - 2.0*getGrid(grid,i,j) + getGrid(grid,i,j-1)) / (deltaY*deltaY);
-			grad[i][j] = gradX + gradY;
-
-			gridH[i][j] += dt * (grad[i][j] - damping*gridH[i][j]);
-			grid[i][j] += dt * gridH[i][j];
-		}
-	}
-
-	// src
-	//if(t < 1) {
-		var k = 1;
-		for(var i = gridWidth/2.0-k; i < k+gridWidth/2.0-k; i++) {
-			for(var j = gridHeight/2.0-k; j < k+gridHeight/2.0-k; j++){
-				grid[i][j] = 100*Math.sin(8*t*Math.PI);
-			}
-		}	
-	//}
-	*/
+	//updateField(dt,damping,t,grid);
 
 	// update amplitudes
 	for(var i = 0; i < gridWidth; i++) {
@@ -101,11 +77,8 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 	currentTime += dt;
 }
 
-function updateField(t,grid)
+function updateField(dt,damping,t,grid)
 {
-	var dt = 0.008;
-	var damping = 1.2;
-
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
 			var deltaX = 0.1;
