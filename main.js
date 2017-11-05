@@ -13,7 +13,7 @@ var currentTime = 0;
 var dotGeometry;
 
 var gridWidth = 200, gridHeight = 200;
-
+var spheres = [];
 // GUI global variable -----------------------------------------------
 var params = { 
 	amplitude_m: 10, 
@@ -26,12 +26,12 @@ var params = {
 };
 
 var sourceA = {
-	x : 25,
-	y : 50
+	x : 100,
+	y : 100
 }
 
 var sourceB = {
-	x : 50,
+	x : 100,
 	y : 50
 } 
 
@@ -114,10 +114,10 @@ function init()
 
 	camera = new THREE.PerspectiveCamera( 40, windowHalfX / windowHalfY, 1, 3000 );
 	camera.up.set(0,0,1);
-	camera.position.x = 250;
-	camera.position.y = 150;
-	camera.position.z = 250;
-	camera.lookAt(new THREE.Vector3(0,0,0));
+	camera.position.x = 388;
+	camera.position.y = 400;
+	camera.position.z = 119;
+	camera.lookAt(new THREE.Vector3(50,50,0));
 
 	scene = new THREE.Scene();
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -163,7 +163,6 @@ function createScene()
 	var SCALE_SRC = 1.0;
 
 	// create grid
-	var sources = [];
 	createGrid(gridWidth, gridHeight);
 
 	addSrc(sourceA.x,sourceA.y);
@@ -193,6 +192,18 @@ function createScene()
 	var dot = new THREE.Points( dotGeometry, pointsMaterial );
 
 	scene.add( dot);
+
+	// add sphere to source point
+    var geometry = new THREE.SphereGeometry(5);
+    var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    for (var i = 0; i<sources.length;++i){
+
+    	var sphere = new THREE.Mesh( geometry, material );
+    	spheres.push(sphere);
+        scene.add( sphere );
+        sphere.position.set(sources[i].x, sources[i].y, 0);
+        sphere.visible = true;
+    }
 }
 
 function onUpdate()
@@ -202,7 +213,6 @@ function onUpdate()
 	updateSource(1,sourceB.x,sourceB.y);
 	updateColor(colorsTop.color,rgbTop);
 	updateColor(colorsBot.color,rgbBot);
-
 
 	renderer.setClearColor(new THREE.Color(0,0,0));
 	renderer.clear();
@@ -255,6 +265,7 @@ function updateSource(index,NewX,NewY)
 {
 	sources[index].x = NewX;
 	sources[index].y = NewY;
+	spheres[index].position.set(NewX, NewY, grid[NewX][NewY]);
 }
 
 
