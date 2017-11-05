@@ -25,4 +25,5 @@ For our wave simulator, there are multiple parameters which users could modify i
 2. switch_Algorithm: switch between mathematical representation and physical representation 
 3. View Source : see the source code
 4. addSource: add additional source, corresponding controls for the newly added source is also dynamically added
-5. Reset: Reset number of sources to 2 and to initial state
+5. Reset_Sources: Reset number of sources to 2 and to initial state
+6. Sound compression: simulate sound interation in 2d space
