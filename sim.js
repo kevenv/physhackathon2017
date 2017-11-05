@@ -47,7 +47,7 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 {
 	var f = frequency;
 	var c = waveSpeed;
-	var dt = 0.001;
+	var dt = clock.getDelta();
 	var a = amplitude;
 
 	// update amplitudes

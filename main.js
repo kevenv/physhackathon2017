@@ -1,7 +1,7 @@
 "use strict";
 
 // GLOBALS ------------------------------------------------------------
-var camera, scene, renderer, controls, axis, gridMesh;
+var camera, scene, renderer, controls, axis, gridMesh, clock;
 
 var width = 1500;
 var height = 800;
@@ -17,8 +17,8 @@ var spheres = [];
 // GUI global variable -----------------------------------------------
 var params = { 
 	amplitude_m: 10, 
-	frequency_hz: 10, 
-	WaveSpeed_MperSec: 343, 
+	frequency_hz: 1, 
+	WaveSpeed_MperSec: 70, 
 	GridSizeX: 100, 
 	GridSizeY: 100,
 	Freeze:false,
@@ -34,13 +34,13 @@ function addSource(){
 
 
 var sourceA = {
-	x : 100,
-	y : 100
+	x : 175,
+	y : 25
 }
 
 var sourceB = {
-	xa : 100,
-	yb : 50
+	xa : 25,
+	yb : 175
 } 
 
 
@@ -158,6 +158,8 @@ function init()
 	var lineZ = new THREE.Line(geometryZ, matZ);
 	scene.add(lineZ);
 	axis = [lineX, lineY, lineZ];
+
+	clock = new THREE.Clock();
 
 	createScene();
 	gui_init();
