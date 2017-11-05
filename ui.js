@@ -23,7 +23,6 @@ function gui_init()
 	// Init gui
 	gui = new dat.GUI({ width: 500 });
 	var WaveControls = gui.addFolder( 'WaveControls' );
-	var GridControls = gui.addFolder( 'GridControls' );
 	var ColorControls = gui.addFolder( 'Color');
 	WaveControls.add(params, 'Freeze',false).onChange( function( value ) { ssaoPass.Freeze = value; } );
 	WaveControls.add(params, 'amplitude_m' ).min( 0 ).max( 100 ).onChange( function( value ) { ssaoPass.amplitude_m = value; } );
@@ -49,16 +48,6 @@ function gui_init()
 			colorsBot.color =  value;
 	});
 
-	// grid size initially is 100*100
-	GridControls.add(params, 'GridSizeX' ).min( 0 ).max( 1000).onChange( function( value ) {
-		ssaoPass.GridSizeX = value;
-
-	} );
-	GridControls.add(params, 'GridSizeY' ).min( 0 ).max( 1000).onChange( function( value ) {
-		ssaoPass.GridSizeY = value;
-
-	} );
-
 	WaveControls.open();
 
 }
@@ -67,7 +56,6 @@ function gui_addSource(sources)
 {
 	var i = sources.length - 1;
 	var sourceControl = gui.addFolder( 'Source' + i );
-	console.log(sources[i])
 	sourceControl.add(sources[i], 'x', 0,200,1).onChange( function(value){ ssaoPass.x = value; });
 	sourceControl.add(sources[i], 'y', 0,200,1).onChange( function(value){ ssaoPass.y = value; });
 	sourceControl.add(sources[i], 'phase').min(-2).max(2).onChange( function(value){ ssaoPass.phase = value; });
