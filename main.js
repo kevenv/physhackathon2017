@@ -1,12 +1,12 @@
 "use strict";
 
 // GLOBALS ------------------------------------------------------------
-var camera, scene, renderer, controls, axis, gridMesh, clock;
+var camera, scene, renderer, controls, axis, clock;
 
-var width = 1500;
-var height = 800;
+var width = 800;
+var height = 600;
 var windowHalfX = width / 2;
-var windowHalfY = height / 2
+var windowHalfY = height / 2;
 
 var grid = [], sources = [], gridMaterials;
 var currentTime = 0;
@@ -15,11 +15,12 @@ var dotGeometry;
 var gridWidth = 200, gridHeight = 200;
 var spheres = [];
 
-function addSource(){
+var FPS = 90;
+
+function addSource() {
 	params.numSource++;
 	addSrc(Math.round(Math.random()*200),Math.round(Math.random()*200),Math.random()*4.0-2);
 }
-
 
 var sourceA = {
 	x : 175,
@@ -33,15 +34,13 @@ var sourceB = {
 	phase : 0
 } 
 
-
 //colors---------------------------------
 var Config=function(input){
-        this.color = input;
+    this.color = input;
 }
 
 var colorsTop = new Config("#b36b44");
 var colorsBot = new Config("#437ed2");
-
 
 var rgbTop = {
 	r: 255,
@@ -62,14 +61,13 @@ function ConvertRgb(r,g,b,rgb) {
 }
 
 //update color 
-function updateColor(hex,rgb){
+function updateColor(hex,rgb) {
 	var colorValue = parseInt ( hex.replace("#","0x"), 16 );
 	var Cool = new THREE.Color(colorValue);
 	ConvertRgb(Cool.r,Cool.g,Cool.b,rgb);
 }
 
 function calculateColor(x,y) {
-
 	var ratio = (10+grid[x][y]*1.0)/20;
     var Red =  (rgbBot.r + ((rgbTop.r - rgbBot.r)*ratio));
     var Green = (rgbBot.g + ((rgbTop.g - rgbBot.g)*ratio));
@@ -77,13 +75,9 @@ function calculateColor(x,y) {
     return [Red,Green,Blue];
 }
 
-
-//----------------------------------
-
 // EVENTS ------------------------------------------------------------
 document.addEventListener("load", onLoad());
 function onLoad() {
-	/*initControls();*/
 	init();
 }
 
@@ -107,7 +101,7 @@ function onRender()
 {
 	setTimeout( function() {
         requestAnimationFrame( onRender );
-    }, 1000 / 90 );
+    }, 1000 / FPS );
     if(!params.Freeze){
     	onUpdate();
     }
@@ -169,9 +163,6 @@ function init()
 
 function createScene()
 {
-	var SCALE = 4.0;
-	var SCALE_SRC = 1.0;
-
 	// create grid
 	createGrid(gridWidth, gridHeight);
 
@@ -201,11 +192,7 @@ function createScene()
 	var pointsMaterial = new THREE.PointsMaterial( { size: 2, sizeAttenuation: false, vertexColors: THREE.VertexColors } );
 	var dot = new THREE.Points( dotGeometry, pointsMaterial );
 
-	scene.add( dot);
-
-	// add sphere to source point
-    var geometry = new THREE.SphereGeometry(5);
-    var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+	scene.add(dot);
 }
 
 function onUpdate()
@@ -225,7 +212,7 @@ function onUpdate()
 
 	tickSim(currentTime, grid, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m) ;
 
-	 for (var x = 0; x < grid.length; ++x)
+	for (var x = 0; x < grid.length; ++x)
     {
         for (var y = 0; y < grid[x].length; ++y)
         {
@@ -246,7 +233,6 @@ function onUpdate()
     }
     dotGeometry.attributes.position.needsUpdate = true;
     dotGeometry.attributes.color.needsUpdate = true;
-
 }
 
 //as advertised, we update the sources
@@ -256,18 +242,4 @@ function updateSource(index,NewX,NewY,phase)
 	sources[index].y = NewY;
 	sources[index].phase = phase;
 	spheres[index].position.set(NewX, NewY, grid[NewX][NewY]);
-}
-
-// UTILS ------------------------------------------------------------
-
-var asyncLoop = function(o)
-{
-    var i=-1;
-
-    var loop = function() {
-        i++;
-        if(i==o.length){o.callback(); return;}
-        o.functionToLoop(loop, i);
-    }
-    loop();//init
 }

@@ -1,4 +1,5 @@
 // GUI global variable -----------------------------------------------
+var ssaoPass = {};
 var params = { 
 	amplitude_m: 10, 
 	frequency_hz: 1, 
@@ -16,10 +17,6 @@ var gui;
 
 function gui_init()
 {
-
-	//adding GUI
-	// Initparams
-	init_params();
 	// Init gui
 	gui = new dat.GUI({ width: 500 });
 	var WaveControls = gui.addFolder( 'WaveControls' );
@@ -49,7 +46,6 @@ function gui_init()
 	});
 
 	WaveControls.open();
-
 }
 
 function gui_addSource(sources)
@@ -59,17 +55,4 @@ function gui_addSource(sources)
 	sourceControl.add(sources[i], 'x', 0,200,1).onChange( function(value){ ssaoPass.x = value; });
 	sourceControl.add(sources[i], 'y', 0,200,1).onChange( function(value){ ssaoPass.y = value; });
 	sourceControl.add(sources[i], 'phase').min(-2).max(2).onChange( function(value){ ssaoPass.phase = value; });
-}
-
-function init_params() 
-{
-	// Setup render pass
-	var renderPass = new THREE.RenderPass( scene, camera );
-	// Setup SSAO pass
-	ssaoPass = new THREE.SSAOPass( scene, camera );
-	ssaoPass.renderToScreen = true;
-	// Add pass to effect composer
-	effectComposer = new THREE.EffectComposer( renderer );
-	effectComposer.addPass( renderPass );
-	effectComposer.addPass( ssaoPass );
 }
