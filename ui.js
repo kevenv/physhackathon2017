@@ -16,7 +16,7 @@ var params = {
 	switch_Algorithm:false,
 	soundCompressionMode:false,
 	AddSource : function(){ addSource();},
-	Reset: function (value) {
+	Reset_Sources: function (value) {
         for (var i = 0; i < sources.length; i++) {
         gui.removeFolder('Source'+i);
     }
@@ -53,7 +53,7 @@ function gui_init()
 	WaveControls.add(params, 'dt', 0.001,0.012,0.001).onChange( function( value ) { ssaoPass.dt = value; } );
 	WaveControls.add(params, 'soundCompressionMode',false).onChange( function( value ) {ssaoPass.soundCompressionMode = value; });
 	WaveControls.add(params, 'AddSource');
-	WaveControls.add(params, 'Reset')
+	WaveControls.add(params, 'Reset_Sources')
 
 	//handling color input 
 	var Top = ColorControls.addColor(colorsTop, 'color');
