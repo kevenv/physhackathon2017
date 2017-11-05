@@ -82,6 +82,8 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 			}
 		}	
 	//}
+	//updateField(dt,damping,t,grid);
+
 
 	/* update amplitudes
 	for(var i = 0; i < gridWidth; i++) {
@@ -100,11 +102,8 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 	currentTime += dt;
 }
 
-function updateField(t,grid)
+function updateField(dt,damping,t,grid)
 {
-	var dt = 0.008;
-	var damping = 1.2;
-
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
 			var deltaX = 0.1;
