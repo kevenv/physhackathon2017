@@ -19,5 +19,10 @@ For our wave simulator, there are multiple parameters which users could modify i
 ### Source parameters
 1. x,y: coordinates of the sound source in (x, y) plane.
 2. phase: the initial phase of the source.
-
+3. vx,vy: velocity of sound source in (x,y) plane. 
 ## Extra Features
+1. Freeze: stop all updates on the frame and user can look at static points
+2. switch_Algorithm: switch between mathematical representation and physical representation 
+3. View Source : see the source code
+4. addSource: add additional source, corresponding controls for the newly added source is also dynamically added
+5. Reset: Reset number of sources to 2 and to initial state
