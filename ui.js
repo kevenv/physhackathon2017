@@ -16,7 +16,9 @@ function gui_init()
 	WaveControls.add(params, 'frequency_hz' ).min( 0 ).max( 2 ).onChange( function( value ) { ssaoPass.frequency_hz = value; } );
 	// unit for WaveSpeed is m/s
 	WaveControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max(1000).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
+	WaveControls.add(params, 'switch_Algorithm',false).onChange( function( value ) {ssaoPass.switch_Algorithm = value; });
 	WaveControls.add(params, 'AddSource');
+
 	// how to add more sources is to be determined
 	//WaveControls.add(params, 'Sources',1,10,1).onChange( function( value ) { ssaoPass.Sources = value; });
 	//change position of sourceA

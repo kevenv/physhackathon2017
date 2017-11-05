@@ -24,12 +24,14 @@ var params = {
 	Freeze:false,
 	Source:1,
 	numSource:2,
+	switch_Algorithm:false,
 	AddSource : function(){ addSource();}
+
 };
 
 function addSource(){
 	params.numSource++;
-	addSrc(Math.round(Math.random()*100),Math.round(Math.random()*100));
+	addSrc(Math.round(Math.random()*200),Math.round(Math.random()*200));
 }
 
 
