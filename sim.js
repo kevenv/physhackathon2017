@@ -75,11 +75,6 @@ function tickSim(t, sources, frequency, waveSpeed, amplitude, Damping, deltaT)
 	{
 		var source = sources[s];
 		
-		if (Math.abs(source.vx) < 0.1 && Math.abs(source.vy) < 0.1)
-		{
-			continue;
-		}
-
 		if (Math.abs(source.fx - source.x) > 2.0)
 			source.fx = source.x;
 		if (Math.abs(source.fy - source.y) > 2.0)
