@@ -15,6 +15,7 @@ var params = {
 	numSource:2,
 	switch_Algorithm:true,
 	soundCompressionMode:false,
+
 	AddSource : function(){ addSource();},
 	Reset_Sources: function (value) {
         for (var i = 0; i < sources.length; i++) {
@@ -23,7 +24,9 @@ var params = {
         resetGrid();
         resetSource();
 
-    }
+    },
+    View_Code : function(){window.location.href = 'https://github.com/kevenv/physhackathon2017';}
+
 };
 var gui;
 
@@ -41,6 +44,7 @@ function gui_init()
 {
 	// Init gui
 	gui = new dat.GUI({ width: 500 });
+	var CodeControls = gui.addFolder('View Source Code');
 	var WaveControls = gui.addFolder( 'WaveControls' );
 	var ColorControls = gui.addFolder( 'Color');
 	WaveControls.add(params, 'Freeze',false).onChange( function( value ) { ssaoPass.Freeze = value; } );
@@ -69,7 +73,7 @@ function gui_init()
 			value=value.replace( '#','0x' );
 			colorsBot.color =  value;
 	});
-
+	CodeControls.add(params,'View_Code');
 	WaveControls.open();
 }
 
