@@ -14,8 +14,10 @@ For our wave simulator, there are multiple parameters which users could modify i
 4. DampingSpeed: damping coefficient.
 5. dt: the delta time of each computing step.
 ### Plot parameters
-1: color_peak: color of peak points.
-2: color_bot: color of bottom points.
+1. color_peak: color of peak points.
+2. color_bot: color of bottom points.
 ### Source parameters
-1: x,y: coordinates of the sound source in (x, y) plane.
-2: phase: the initial phase of the source.
+1. x,y: coordinates of the sound source in (x, y) plane.
+2. phase: the initial phase of the source.
+
+## Extra Features
