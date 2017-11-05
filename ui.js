@@ -13,7 +13,7 @@ var params = {
 	Freeze:false,
 	Source:1,
 	numSource:2,
-	switch_Algorithm:false,
+	switch_Algorithm:true,
 	soundCompressionMode:false,
 	AddSource : function(){ addSource();},
 	Reset_Sources: function (value) {
@@ -48,7 +48,7 @@ function gui_init()
 	WaveControls.add(params, 'frequency_hz' ).min( 0 ).max( 2 ).onChange( function( value ) { ssaoPass.frequency_hz = value; } );
 	// unit for WaveSpeed is m/s
 	WaveControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max(1000).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
-	WaveControls.add(params, 'switch_Algorithm',false).onChange( function( value ) {ssaoPass.switch_Algorithm = value; });
+	WaveControls.add(params, 'switch_Algorithm',true).onChange( function( value ) {ssaoPass.switch_Algorithm = value; });
 	WaveControls.add(params, 'DampingSpeed_MperSec',0,10,0.1).onChange( function( value ) { ssaoPass.DampingSpeed_MperSec = value; } );
 	WaveControls.add(params, 'dt', 0.001,0.012,0.001).onChange( function( value ) { ssaoPass.dt = value; } );
 	WaveControls.add(params, 'soundCompressionMode',false).onChange( function( value ) {ssaoPass.soundCompressionMode = value; });
