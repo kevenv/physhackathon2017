@@ -3,8 +3,8 @@
 // GLOBALS ------------------------------------------------------------
 var camera, scene, renderer, controls, axis, gridMesh;
 
-var width = 800;
-var height = 600;
+var width = 1500;
+var height = 800;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2
 
@@ -22,8 +22,16 @@ var params = {
 	GridSizeX: 100, 
 	GridSizeY: 100,
 	Freeze:false,
-	//Sources:1,
+	Source:1,
+	numSource:2,
+	AddSource : function(){ addSource();}
 };
+
+function addSource(){
+	params.numSource++;
+	addSrc(Math.round(Math.random()*100),Math.round(Math.random()*100));
+}
+
 
 var sourceA = {
 	x : 100,
@@ -31,9 +39,10 @@ var sourceA = {
 }
 
 var sourceB = {
-	x : 100,
-	y : 50
+	xa : 100,
+	yb : 50
 } 
+
 
 //colors---------------------------------
 var Config=function(input){
@@ -162,11 +171,12 @@ function createScene()
 	var SCALE = 4.0;
 	var SCALE_SRC = 1.0;
 
+
 	// create grid
 	createGrid(gridWidth, gridHeight);
 
 	addSrc(sourceA.x,sourceA.y);
-	addSrc(sourceB.x,sourceB.y);
+	addSrc(sourceB.xa,sourceB.yb);
 	
 	dotGeometry = new THREE.BufferGeometry();
 
@@ -196,21 +206,25 @@ function createScene()
 	// add sphere to source point
     var geometry = new THREE.SphereGeometry(5);
     var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-    for (var i = 0; i<sources.length;++i){
+    /*for (var i = 0; i<sources.length;++i){
 
     	var sphere = new THREE.Mesh( geometry, material );
     	spheres.push(sphere);
         scene.add( sphere );
         sphere.position.set(sources[i].x, sources[i].y, 0);
         sphere.visible = true;
-    }
+    }*/
 }
 
 function onUpdate()
 {
 	//update the sources
 	updateSource(0,sourceA.x,sourceA.y);
-	updateSource(1,sourceB.x,sourceB.y);
+	updateSource(1,sourceB.xa,sourceB.yb);
+	for (var i = 2; i < sources.length; ++i)
+	{
+		updateSource(i,sources[i].x,sources[i].y);
+	}
 	updateColor(colorsTop.color,rgbTop);
 	updateColor(colorsBot.color,rgbBot);
 
