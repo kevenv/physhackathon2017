@@ -56,8 +56,13 @@ function resetSource(){
 	}
 	sources = [];
 	spheres = [];
-    addSrc(sourceA.x, sourceA.y, 0);
-    addSrc(sourceB.x, sourceB.y, 0);
+    addSrc(sourceA.x, sourceA.y, 0, sourceA.vx, sourceA.vy, sourceA.fx, sourceA.fy);
+    addSrc(sourceB.x, sourceB.y, 0, sourceB.vx, sourceB.vy, sourceB.fx, sourceB.fy);
+}
+
+function clamp (min,max,value)
+{
+  return Math.min(Math.max(value, min), max);
 }
 
 function tickSim(t, sources, frequency, waveSpeed, amplitude, Damping, deltaT)
@@ -66,6 +71,26 @@ function tickSim(t, sources, frequency, waveSpeed, amplitude, Damping, deltaT)
 	var c = waveSpeed;
 	var a = amplitude;
 	
+	for (var s = 0; s < sources.length; ++s)
+	{
+		var source = sources[s];
+		
+		if (Math.abs(source.vx) < 0.1 && Math.abs(source.vy) < 0.1)
+		{
+			continue;
+		}
+
+		if (Math.abs(source.fx - source.x) > 2.0)
+			source.fx = source.x;
+		if (Math.abs(source.fy - source.y) > 2.0)
+			source.fy = source.y
+
+		source.fx += source.vx * deltaT*8.0;
+		source.fy += source.vy * deltaT*8.0;
+		source.x = clamp(0, 199, Math.round(source.fx));
+		source.y = clamp(0, 199, Math.round(source.fy));
+	}
+
 	if (params.switch_Algorithm)
 	{
 		if (!oldAlgorithm)

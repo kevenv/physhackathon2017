@@ -3,8 +3,8 @@
 // GLOBALS ------------------------------------------------------------
 var camera, scene, renderer, controls, axis, clock;
 
-var width = 1280;
-var height = 1080;
+var width = 1480;
+var height = 880;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2;
 
@@ -19,19 +19,27 @@ var FPS = 90;
 
 function addSource() {
 	params.numSource++;
-	addSrc(Math.round(Math.random()*200),Math.round(Math.random()*200),Math.random()*4.0-2);
+	addSrc(Math.round(Math.random()*200),Math.round(Math.random()*200),Math.random()*4.0-2,0,0);
 }
 
 var sourceA = {
 	x : 175,
 	y : 25,
-	phase : 0
+	phase : 0,
+	vx : 0,
+	vy : 0,
+	fx : 0.0,
+	fy : 0.0
 }
 
 var sourceB = {
 	x : 25,
 	y : 175,
-	phase : 0
+	phase : 0,
+	vx : 0,
+	vy : 0,
+	fx : 0.0,
+	fy : 0.0
 } 
 
 //colors---------------------------------
@@ -118,8 +126,8 @@ function init()
 	camera.up.set(0,0,1);
 	camera.position.x = 356;
 	camera.position.y = 395;
-	camera.position.z = 6;
-	camera.lookAt(new THREE.Vector3(50,50,0));
+	camera.position.z = 100;
+	camera.lookAt(new THREE.Vector3(0,-100,-100));
 
 	scene = new THREE.Scene();
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -166,8 +174,8 @@ function createScene()
 	// create grid
 	createGrid(gridWidth, gridHeight);
 
-	addSrc(sourceA.x, sourceA.y, 0);
-	addSrc(sourceB.x, sourceB.y, 0);
+	addSrc(sourceA.x, sourceA.y, 0, sourceA.vx, sourceA.vy);
+	addSrc(sourceB.x, sourceB.y, 0, sourceB.vx, sourceB.vy);
 	
 	dotGeometry = new THREE.BufferGeometry();
 
@@ -197,7 +205,6 @@ function createScene()
 document.addEventListener( 'mousedown', onDocumentMouseDown );
 
 function onDocumentMouseDown( event ) {
-	console.log("1");
 	var rect = document.getElementById( "container" ).getBoundingClientRect();
     var mouse2D = new THREE.Vector2(
     	( event.clientX-rect.left / rect.width ) * 2 - 1,
@@ -210,7 +217,6 @@ function onDocumentMouseDown( event ) {
     var intersects = raycaster.intersectObjects( spheres );
 
     if ( intersects.length > 0 ) {
-    	console.log('found');
         intersects[ 0 ].object.material.color.setHex( 0xffff00 );
     }
 }
@@ -220,7 +226,7 @@ function onUpdate()
 	//update the sources
 	for (var i = 0; i < sources.length; ++i)
 	{
-		updateSource(i,sources[i].x,sources[i].y,sources[i].phase);
+		updateSource(i,sources[i].x,sources[i].y,sources[i].phase,sources[i].vx,sources[i].vy,sources[i].fx,sources[i].fy);
 	}
 	updateColor(colorsTop.color,rgbTop);
 	updateColor(colorsBot.color,rgbBot);
@@ -255,12 +261,16 @@ function onUpdate()
     dotGeometry.attributes.color.needsUpdate = true;
 }
 
-function addSrc(x,y,phase)
+function addSrc(x,y,phase,vx,vy)
 {
 	sources.push({
 		'x' : x,
 		'y' : y,
-		'phase' : phase
+		'phase' : phase,
+		'vx' : vx,
+		'vy' : vy,
+		'fx' : x,
+		'fy' : y
 	});
 	var geometry = new THREE.SphereGeometry(5,32,32);
     var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
@@ -274,10 +284,14 @@ function addSrc(x,y,phase)
 }
 
 //as advertised, we update the sources
-function updateSource(index,NewX,NewY,phase)
+function updateSource(index,NewX,NewY,phase,vx,vy,fx,fy)
 {
 	sources[index].x = NewX;
 	sources[index].y = NewY;
 	sources[index].phase = phase;
-	spheres[index].position.set(NewX, NewY, grid[NewX][NewY]);
+	sources[index].vx = vx;
+	sources[index].vy = vy;
+	sources[index].fx = fx;
+	sources[index].fy = fy;
+	spheres[index].position.set(fx, fy, grid[NewX][NewY]);
 }
