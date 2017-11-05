@@ -25,6 +25,13 @@ function addSrc(x,y)
 		'x' : x,
 		'y' : y
 	});
+	var geometry = new THREE.SphereGeometry(5);
+    var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+	var sphere = new THREE.Mesh( geometry, material );
+    spheres.push(sphere);
+    scene.add( sphere );
+    sphere.position.set(sources[sources.length-1].x, sources[sources.length-1].y, 0);
+    sphere.visible = true;
 }
 
 function waveEq(y0, f, t, x, c)
@@ -46,7 +53,7 @@ function tickSim(t, grid, sources, frequency, waveSpeed, amplitude)
 {
 	var f = frequency;
 	var c = waveSpeed;
-	var dt = 0.001;
+	var dt = clock.getDelta();
 	var a = amplitude;
 	
 	// new physics engine!
