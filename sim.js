@@ -49,7 +49,7 @@ function resetGrid()
 	}
 }
 
-function tickSim(t, sources, frequency, waveSpeed, amplitude)
+function tickSim(t, sources, frequency, waveSpeed, amplitude, Damping, deltaT)
 {
 	var f = frequency;
 	var c = waveSpeed;
@@ -63,8 +63,8 @@ function tickSim(t, sources, frequency, waveSpeed, amplitude)
 			resetGrid();
 		}
 		// new physics engine!
-		var dt = 0.008;
-		var damping = 1.2;
+		var dt = deltaT;
+		var damping = Damping;
 		updateField(dt,damping,t,frequency,waveSpeed,amplitude);
 	}
 	else

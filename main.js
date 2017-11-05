@@ -210,7 +210,7 @@ function onUpdate()
 
 	controls.update();
 
-	tickSim(currentTime, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m);
+	tickSim(currentTime, sources, params.frequency_hz, params.WaveSpeed_MperSec, params.amplitude_m,params.DampingSpeed_MperSec,params.dt);
 
 	for (var x = 0; x < grid.length; ++x)
     {

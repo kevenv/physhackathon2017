@@ -6,6 +6,8 @@ var params = {
 	amplitude_m: 10, 
 	frequency_hz: 1, 
 	WaveSpeed_MperSec: 75, 
+	DampingSpeed_MperSec: 1.2,
+	dt: 0.008,
 	GridSizeX: 100, 
 	GridSizeY: 100,
 	Freeze:false,
@@ -29,6 +31,8 @@ function gui_init()
 	// unit for WaveSpeed is m/s
 	WaveControls.add(params, 'WaveSpeed_MperSec' ).min( 0 ).max(1000).onChange( function( value ) { ssaoPass.WaveSpeed_MperSec = value; } );
 	WaveControls.add(params, 'switch_Algorithm',false).onChange( function( value ) {ssaoPass.switch_Algorithm = value; });
+	WaveControls.add(params, 'DampingSpeed_MperSec',0,10,0.1).onChange( function( value ) { ssaoPass.DampingSpeed_MperSec = value; } );
+	WaveControls.add(params, 'dt', 0.001,0.012,0.001).onChange( function( value ) { ssaoPass.dt = value; } );
 	WaveControls.add(params, 'soundCompressionMode',false).onChange( function( value ) {ssaoPass.soundCompressionMode = value; });
 	WaveControls.add(params, 'AddSource');
 
