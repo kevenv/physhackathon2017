@@ -3,8 +3,8 @@
 // GLOBALS ------------------------------------------------------------
 var camera, scene, renderer, controls, axis, clock;
 
-var width = 1280;
-var height = 1080;
+var width = 1480;
+var height = 880;
 var windowHalfX = width / 2;
 var windowHalfY = height / 2;
 
@@ -126,8 +126,8 @@ function init()
 	camera.up.set(0,0,1);
 	camera.position.x = 356;
 	camera.position.y = 395;
-	camera.position.z = 6;
-	camera.lookAt(new THREE.Vector3(50,50,0));
+	camera.position.z = 100;
+	camera.lookAt(new THREE.Vector3(0,-100,-100));
 
 	scene = new THREE.Scene();
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
