@@ -40,13 +40,24 @@ function waveEq2D(amplitude,sensorLocation,sourceLocation,f,t,c,phase)
 
 var oldAlgorithm = false;
 
+
 function resetGrid()
 {
 	for(var i = 0; i < gridWidth; i++) {
 		for(var j = 0; j < gridHeight; j++) {
 			grid[i][j] = 0.0;
+			gridH[i][j] = 0.0;
 		}
 	}
+}
+function resetSource(){
+	for (var i = 0; i < spheres.length; i++){
+		scene.remove(spheres[i]);
+	}
+	sources = [];
+	spheres = [];
+    addSrc(sourceA.x, sourceA.y, 0);
+    addSrc(sourceB.x, sourceB.y, 0);
 }
 
 function tickSim(t, sources, frequency, waveSpeed, amplitude, Damping, deltaT)

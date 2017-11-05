@@ -15,10 +15,28 @@ var params = {
 	numSource:2,
 	switch_Algorithm:false,
 	soundCompressionMode:false,
-	AddSource : function(){ addSource();}
+	AddSource : function(){ addSource();},
+	Reset: function (value) {
+        for (var i = 0; i < sources.length; i++) {
+        gui.removeFolder('Source'+i);
+    }
+        resetGrid();
+        resetSource();
+
+    }
 };
 var gui;
 
+dat.GUI.prototype.removeFolder = function(name) {
+    var folder = this.__folders[name];
+    if (!folder) {
+        return;
+    }
+    folder.close();
+    this.__ul.removeChild(folder.domElement.parentNode);
+    delete this.__folders[name];
+    this.onResize();
+}
 function gui_init()
 {
 	// Init gui
@@ -35,6 +53,7 @@ function gui_init()
 	WaveControls.add(params, 'dt', 0.001,0.012,0.001).onChange( function( value ) { ssaoPass.dt = value; } );
 	WaveControls.add(params, 'soundCompressionMode',false).onChange( function( value ) {ssaoPass.soundCompressionMode = value; });
 	WaveControls.add(params, 'AddSource');
+	WaveControls.add(params, 'Reset')
 
 	//handling color input 
 	var Top = ColorControls.addColor(colorsTop, 'color');
