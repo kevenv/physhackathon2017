@@ -226,9 +226,6 @@ function onUpdate()
         for (var y = 0; y < grid[x].length; ++y)
         {
         	var ratio = (10+grid[x][y])/20;
-            //var Red = rgbTop.r*(1.0)/255;
-            //var Green = rgbTop.g*(1.0)/255;
-            //var Blue = rgbTop.b*(1.0)/255;
             var Red =  (rgbBot.r + ((rgbTop.r - rgbBot.r)*ratio));
             var Green = (rgbBot.g + ((rgbTop.g - rgbBot.g)*ratio));
             var Blue = (rgbBot.b + ((rgbTop.b - rgbBot.b)*ratio));
@@ -239,25 +236,6 @@ function onUpdate()
     }
     dotGeometry.attributes.position.needsUpdate = true;
     dotGeometry.attributes.color.needsUpdate = true;
-
-    //shit something something 
-	/*while(scene.children.length > 0){ 
-	    scene.remove(scene.children[0]); 
-	}
-	Update(0.05);
-	for (var i = 0; i < m_circleArr.length; ++i) {
-		var element = m_circleArr[i];
-
-		var geometry = new THREE.CircleBufferGeometry( element['radius'], 8 );
-		var wireframe = new THREE.WireframeGeometry( geometry );
-		var line = new THREE.LineSegments( wireframe );
-		line.material.color.setHex( 0xffffff );
-		line.material.depthTest = false;
-		line.material.opacity = 1;
-		line.material.transparent = true;
-		line.position.copy(element['position']);
-		scene.add( line );
-	}*/
 }
 
 //as advertised, we update the sources
@@ -267,40 +245,6 @@ function updateSource(index,NewX,NewY)
 	sources[index].y = NewY;
 	spheres[index].position.set(NewX, NewY, grid[NewX][NewY]);
 }
-
-
-
-/*
-function initControls()
-{
-	var sliderLightX = document.getElementById("slider_L_pos_x");
-	sliderLightX.defaultValue = 0.0;
-	sliderLightX.min = -4;
-	sliderLightX.max = +4;
-	sliderLightX.step = 0.1;
-	sliderLightX.addEventListener("input", function() {
-		light.position.x = parseFloat(sliderLightX.value);
-	});
-
-	var sliderLightY = document.getElementById("slider_L_pos_y");
-	sliderLightY.defaultValue = 1.1;
-	sliderLightY.min = -4;
-	sliderLightY.max = +4;
-	sliderLightY.step = 0.1;
-	sliderLightY.addEventListener("input", function() {
-		light.position.y = parseFloat(sliderLightY.value);
-	});
-
-	var sliderLightZ = document.getElementById("slider_L_pos_z");
-	sliderLightZ.defaultValue = 2.0;
-	sliderLightZ.min = 0;
-	sliderLightZ.max = +8;
-	sliderLightZ.step = 0.1;
-	sliderLightZ.addEventListener("input", function() {
-		light.position.z = parseFloat(sliderLightZ.value);
-	});
-}
-*/
 
 // UTILS ------------------------------------------------------------
 
