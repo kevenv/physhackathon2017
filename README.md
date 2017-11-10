@@ -1,7 +1,7 @@
 # physhackathon2017
 SimWave is a web application built for simulating the propogation of physical waves from multiple sources.
 # Can be viewed at 
-http://cs.mcgill.ca/~shuang43/phyhack/physhackathon2017/main.html
+https://kevenv.github.io/physhackathon2017/main.html
 ## Dependencies
 All required javascript libraries are included in the [libs](https://github.com/kevenv/physhackathon2017/tree/master/libs) folder.
 ## Parameters
