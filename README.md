@@ -1,5 +1,6 @@
 # physhackathon2017
-SimWave is a web application built for simulating the propogation of physical waves from multiple sources.
+- SimWave is a web application built for simulating the propogation of physical waves from multiple sources.
+- Won 2nd place at the McGill Physics hackathon 2017.
 # Can be viewed at 
 https://kevenv.github.io/physhackathon2017/main.html
 ## Dependencies
